@@ -1,8 +1,7 @@
-const App=()=>{
-  return(
-    <div className="text-4xl font-bold text-center mt-10">Youtube clone</div>
-  )
-}
+import AppRoutes from "./routes/AppRoutes";
 
+function App() {
+  return <AppRoutes />;
+}
 
 export default App;
