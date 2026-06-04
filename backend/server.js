@@ -6,6 +6,8 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import testRoutes from "./routes/testRoutes.js";
 
+import videoRoutes from "./routes/videoRoutes.js";
+
 dotenv.config();
 
 connectDB();
@@ -23,6 +25,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/test", testRoutes);
+
+app.use("/api/videos", videoRoutes);
 
 const PORT = process.env.PORT || 5000;
 
