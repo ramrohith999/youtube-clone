@@ -1,16 +1,14 @@
-import { useSelector } from "react-redux";
+import MainLayout from "../layouts/MainLayout";
 
 const Home = () => {
-  const token = useSelector(
-    (state) => state.auth.token
-  );
-
   return (
-    <div>
-      <h1>Home Page</h1>
+    <MainLayout>
 
-      <p>Token: {token || "No Token"}</p>
-    </div>
+      <h1 className="text-3xl font-bold">
+        Home Page
+      </h1>
+
+    </MainLayout>
   );
 };
 
