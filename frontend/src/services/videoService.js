@@ -21,3 +21,9 @@ export const dislikeVideo = async (videoId, userId) => {
 
   return response.data;
 };
+
+export const createVideo = async (videoData) => {
+  const response = await API.post("/videos", videoData);
+
+  return response.data;
+};
