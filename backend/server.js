@@ -7,6 +7,9 @@ import authRoutes from "./routes/authRoutes.js";
 import testRoutes from "./routes/testRoutes.js";
 
 import videoRoutes from "./routes/videoRoutes.js";
+import channelRoutes from "./routes/channelRoutes.js";
+
+import seedRoutes from "./routes/seedRoutes.js";
 
 dotenv.config();
 
@@ -27,6 +30,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/test", testRoutes);
 
 app.use("/api/videos", videoRoutes);
+app.use("/api/channels", channelRoutes);
+
+app.use("/api/seed", seedRoutes);
 
 const PORT = process.env.PORT || 5000;
 

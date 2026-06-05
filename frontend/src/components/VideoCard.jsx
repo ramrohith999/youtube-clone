@@ -21,7 +21,7 @@ const VideoCard = ({ video }) => {
           </h3>
 
           <p className="text-gray-600 text-sm">
-            {video.channelName}
+            {video.channel?.channelName}
           </p>
 
           <p className="text-gray-500 text-sm">

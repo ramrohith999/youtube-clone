@@ -1,49 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import MainLayout from "../layouts/MainLayout";
 
 import FilterBar from "../components/FilterBar";
 import VideoCard from "../components/VideoCard";
 
-import mockVideos from "../utils/mockVideos";
+import { fetchVideos } from "../features/videos/videoSlice";
 
 const Home = () => {
-  const [selectedCategory, setSelectedCategory] =
-    useState("All");
+  const dispatch = useDispatch();
+
+  const { videos, loading, error } = useSelector((state) => state.videos);
+
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  useEffect(() => {
+    dispatch(fetchVideos());
+  }, [dispatch]);
 
   const filteredVideos =
     selectedCategory === "All"
-      ? mockVideos
-      : mockVideos.filter(
-          (video) =>
-            video.category === selectedCategory
-        );
+      ? videos
+      : videos.filter((video) => video.category === selectedCategory);
 
   return (
     <MainLayout>
-
       <FilterBar
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
 
-      <div
-        className="
-          grid
-          grid-cols-1
-          sm:grid-cols-2
-          lg:grid-cols-3
-          gap-6
-        "
-      >
-        {filteredVideos.map((video) => (
-          <VideoCard
-            key={video._id}
-            video={video}
-          />
-        ))}
-      </div>
+      {loading && <h2 className="text-center">Loading Videos...</h2>}
 
+      {error && <h2 className="text-center text-red-500">{error}</h2>}
+
+      {filteredVideos.length === 0 ? (
+        <div className="text-center py-20">
+          <h2 className="text-2xl font-semibold">No videos found</h2>
+
+          <p className="text-gray-500 mt-2">
+            Try a different search or category
+          </p>
+        </div>
+      ) : (
+        <div
+           className="
+    grid
+    grid-cols-1
+    sm:grid-cols-2
+    lg:grid-cols-3
+    xl:grid-cols-4
+    gap-6
+  "
+        >
+          {filteredVideos.map((video) => (
+            <VideoCard key={video._id} video={video} />
+          ))}
+        </div>
+      )}
     </MainLayout>
   );
 };
