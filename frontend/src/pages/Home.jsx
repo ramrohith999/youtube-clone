@@ -14,18 +14,38 @@ const Home = () => {
   const { videos, loading, error } = useSelector((state) => state.videos);
 
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     dispatch(fetchVideos());
   }, [dispatch]);
 
-  const filteredVideos =
-    selectedCategory === "All"
-      ? videos
-      : videos.filter((video) => video.category === selectedCategory);
+  //filtering the videos
+ const filteredVideos = videos.filter(
+  (video) => {
+    const matchesCategory =
+      selectedCategory === "All" ||
+      video.category === selectedCategory;
+
+    const matchesSearch =
+      video.title
+        .toLowerCase()
+        .includes(
+          searchTerm.toLowerCase()
+        );
+
+    return (
+      matchesCategory &&
+      matchesSearch
+    );
+  }
+);
 
   return (
-    <MainLayout>
+  <MainLayout
+  searchTerm={searchTerm}
+  setSearchTerm={setSearchTerm}
+>
       <FilterBar
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}

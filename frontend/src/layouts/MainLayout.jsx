@@ -3,7 +3,11 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({
+  children,
+  searchTerm,
+  setSearchTerm,
+}) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -13,7 +17,11 @@ const MainLayout = ({ children }) => {
   return (
     <div className="min-h-screen">
 
-      <Header toggleSidebar={toggleSidebar} />
+     <Header
+  toggleSidebar={toggleSidebar}
+  searchTerm={searchTerm}
+  setSearchTerm={setSearchTerm}
+/>
 
       <div className="flex">
 
