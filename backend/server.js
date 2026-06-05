@@ -8,6 +8,7 @@ import testRoutes from "./routes/testRoutes.js";
 
 import videoRoutes from "./routes/videoRoutes.js";
 import channelRoutes from "./routes/channelRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 
 import seedRoutes from "./routes/seedRoutes.js";
 
@@ -31,12 +32,12 @@ app.use("/api/test", testRoutes);
 
 app.use("/api/videos", videoRoutes);
 app.use("/api/channels", channelRoutes);
+app.use("/api/comments", commentRoutes);
 
 app.use("/api/seed", seedRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, ()=>{
-    console.log(`server running on ${PORT}` )
-})
-
+app.listen(PORT, () => {
+  console.log(`server running on ${PORT}`);
+});
