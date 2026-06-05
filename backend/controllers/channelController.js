@@ -49,3 +49,19 @@ export const getChannelById = async (
     });
   }
 };
+
+//GET to get the videos of thr channel
+export const getChannelVideos =
+  async (req, res) => {
+    try {
+      const videos = await Video.find({
+        channel: req.params.id,
+      });
+
+      res.status(200).json(videos);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
