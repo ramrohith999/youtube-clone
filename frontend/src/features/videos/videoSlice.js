@@ -1,15 +1,16 @@
-import {
-  createSlice,
-  createAsyncThunk,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getVideos } from "../../services/videoService";
+import { getVideos, getVideoById } from "../../services/videoService";
 
-export const fetchVideos = createAsyncThunk(
-  "videos/fetchVideos",
-  async () => {
-    return await getVideos();
-  }
+export const fetchVideos = createAsyncThunk("videos/fetchVideos", async () => {
+  return await getVideos();
+});
+
+export const fetchVideoById = createAsyncThunk(
+  "videos/fetchVideoById",
+  async (id) => {
+    return await getVideoById(id);
+  },
 );
 
 const videoSlice = createSlice({
@@ -17,6 +18,7 @@ const videoSlice = createSlice({
 
   initialState: {
     videos: [],
+    currentVideo: null,
     loading: false,
     error: null,
   },
@@ -30,21 +32,19 @@ const videoSlice = createSlice({
         state.loading = true;
       })
 
-      .addCase(
-        fetchVideos.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.videos = action.payload;
-        }
-      )
+      .addCase(fetchVideos.fulfilled, (state, action) => {
+        state.loading = false;
+        state.videos = action.payload;
+      })
 
-      .addCase(
-        fetchVideos.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error = action.error.message;
-        }
-      );
+      .addCase(fetchVideos.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      .addCase(fetchVideoById.fulfilled, (state, action) => {
+        state.currentVideo = action.payload;
+      });
   },
 });
 

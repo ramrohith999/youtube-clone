@@ -97,3 +97,93 @@ export const deleteVideo = async (
     });
   }
 };
+
+
+//like
+
+export const likeVideo = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    const video = await Video.findById(
+      req.params.id
+    );
+
+    if (!video) {
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    }
+
+    const alreadyLiked =
+      video.likes.includes(userId);
+
+    if (alreadyLiked) {
+      video.likes = video.likes.filter(
+        (id) => id.toString() !== userId
+      );
+    } else {
+      video.likes.push(userId);
+
+      video.dislikes =
+        video.dislikes.filter(
+          (id) =>
+            id.toString() !== userId
+        );
+    }
+
+    await video.save();
+
+    res.status(200).json(video);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+//dislike
+
+export const dislikeVideo = async (
+  req,
+  res
+) => {
+  try {
+    const { userId } = req.body;
+
+    const video = await Video.findById(
+      req.params.id
+    );
+
+    if (!video) {
+      return res.status(404).json({
+        message: "Video not found",
+      });
+    }
+
+    const alreadyDisliked =
+      video.dislikes.includes(userId);
+
+    if (alreadyDisliked) {
+      video.dislikes =
+        video.dislikes.filter(
+          (id) =>
+            id.toString() !== userId
+        );
+    } else {
+      video.dislikes.push(userId);
+
+      video.likes = video.likes.filter(
+        (id) => id.toString() !== userId
+      );
+    }
+
+    await video.save();
+
+    res.status(200).json(video);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};

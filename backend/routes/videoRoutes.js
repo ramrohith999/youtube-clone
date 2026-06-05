@@ -6,6 +6,8 @@ import {
   getVideoById,
   updateVideo,
   deleteVideo,
+  likeVideo,
+  dislikeVideo,
 } from "../controllers/videoController.js";
 
 const router = express.Router();
@@ -19,5 +21,9 @@ router.get("/:id", getVideoById);
 router.put("/:id", updateVideo);
 
 router.delete("/:id", deleteVideo);
+
+router.patch("/:id/like", likeVideo);
+
+router.patch("/:id/dislike", dislikeVideo);
 
 export default router;
