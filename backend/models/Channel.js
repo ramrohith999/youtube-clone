@@ -29,7 +29,7 @@ const channelSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.model("Channel", channelSchema);
