@@ -1,5 +1,7 @@
 import Channel from "../models/Channel.js";
+import Video from "../models/Video.js";
 
+//to create channel
 export const createChannel = async (req, res) => {
   try {
     const {
@@ -17,6 +19,30 @@ export const createChannel = async (req, res) => {
     });
 
     res.status(201).json(channel);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+//to get channel by channelid
+export const getChannelById = async (
+  req,
+  res
+) => {
+  try {
+    const channel = await Channel.findById(
+      req.params.id
+    );
+
+    if (!channel) {
+      return res.status(404).json({
+        message: "Channel not found",
+      });
+    }
+
+    res.status(200).json(channel);
   } catch (error) {
     res.status(500).json({
       message: error.message,
