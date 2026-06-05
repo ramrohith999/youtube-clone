@@ -27,3 +27,9 @@ export const createVideo = async (videoData) => {
 
   return response.data;
 };
+
+export const deleteVideo = async (id) => {
+  const response = await API.delete(`/videos/${id}`);
+
+  return response.data;
+};

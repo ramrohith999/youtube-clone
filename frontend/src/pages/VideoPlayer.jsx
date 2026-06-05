@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
@@ -8,12 +8,13 @@ import MainLayout from "../layouts/MainLayout";
 import { fetchVideoById } from "../features/videos/videoSlice";
 
 import getYoutubeEmbedUrl from "../utils/getYoutubeEmbedUrl";
-import { likeVideo, dislikeVideo } from "../services/videoService";
+import { likeVideo, dislikeVideo, deleteVideo } from "../services/videoService";
 
 import CommentSection from "../components/CommentSection";
 
 const VideoPlayer = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const userId = "6a1b11a1f2b72e71b85a7a73";
 
@@ -51,6 +52,16 @@ const VideoPlayer = () => {
     await dislikeVideo(id, userId);
 
     dispatch(fetchVideoById(id));
+  };
+
+  const handleDeleteVideo = async () => {
+    const confirmed = window.confirm("Delete this video?");
+
+    if (!confirmed) return;
+
+    await deleteVideo(id);
+
+    navigate("/");
   };
 
   return (
@@ -104,6 +115,34 @@ const VideoPlayer = () => {
 
             {currentVideo.dislikes.length}
           </button>
+
+          <div className="flex gap-4 mt-4">
+            <button
+              onClick={() => navigate(`/edit-video/${id}`)}
+              className="
+      bg-yellow-500
+      text-white
+      px-4
+      py-2
+      rounded
+    "
+            >
+              Edit Video
+            </button>
+
+            <button
+              onClick={handleDeleteVideo}
+              className="
+      bg-red-500
+      text-white
+      px-4
+      py-2
+      rounded
+    "
+            >
+              Delete Video
+            </button>
+          </div>
         </div>
 
         <div className="bg-gray-100 p-4 rounded-xl mt-4">
