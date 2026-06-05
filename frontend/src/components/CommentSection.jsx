@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import {
   getComments,
@@ -16,7 +17,7 @@ const CommentSection = ({ videoId }) => {
 
   const [editText, setEditText] = useState("");
 
-  const userId = "6a1b11a1f2b72e71b85a7a73";
+  const { user } = useSelector((state) => state.auth);
 
   const loadComments = async () => {
     const data = await getComments(videoId);
@@ -31,9 +32,15 @@ const CommentSection = ({ videoId }) => {
   const handleSubmit = async () => {
     if (!text.trim()) return;
 
+    if (!user) {
+      alert("Please login first");
+
+      return;
+    }
+
     await createComment({
       text,
-      user: userId,
+      user: user._id,
       video: videoId,
     });
 
@@ -147,7 +154,7 @@ const CommentSection = ({ videoId }) => {
              mr-4
              cursor-pointer
             "
-             >
+          >
             Edit
           </button>
 

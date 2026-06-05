@@ -33,3 +33,9 @@ export const deleteVideo = async (id) => {
 
   return response.data;
 };
+
+export const updateVideo = async (id, data) => {
+  const response = await API.put(`/videos/${id}`, data);
+
+  return response.data;
+};

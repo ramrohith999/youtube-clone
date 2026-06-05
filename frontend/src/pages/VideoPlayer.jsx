@@ -125,6 +125,7 @@ const VideoPlayer = () => {
       px-4
       py-2
       rounded
+      cursor-pointer
     "
             >
               Edit Video
@@ -138,6 +139,7 @@ const VideoPlayer = () => {
       px-4
       py-2
       rounded
+      cursor-pointer
     "
             >
               Delete Video
