@@ -10,6 +10,8 @@ import { fetchVideoById } from "../features/videos/videoSlice";
 import getYoutubeEmbedUrl from "../utils/getYoutubeEmbedUrl";
 import { likeVideo, dislikeVideo } from "../services/videoService";
 
+import CommentSection from "../components/CommentSection";
+
 const VideoPlayer = () => {
   const { id } = useParams();
 
@@ -107,6 +109,7 @@ const VideoPlayer = () => {
         <div className="bg-gray-100 p-4 rounded-xl mt-4">
           <p>{currentVideo.description}</p>
         </div>
+        <CommentSection videoId={currentVideo._id} />
       </div>
     </MainLayout>
   );

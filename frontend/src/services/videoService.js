@@ -10,26 +10,14 @@ export const getVideoById = async (id) => {
   return response.data;
 };
 
-export const likeVideo = async (
-  videoId,
-  userId
-) => {
-  const response = await API.patch(
-    `/videos/${videoId}/like`,
-    { userId }
-  );
+export const likeVideo = async (videoId, userId) => {
+  const response = await API.patch(`/videos/${videoId}/like`, { userId });
 
   return response.data;
 };
 
-export const dislikeVideo = async (
-  videoId,
-  userId
-) => {
-  const response = await API.patch(
-    `/videos/${videoId}/dislike`,
-    { userId }
-  );
+export const dislikeVideo = async (videoId, userId) => {
+  const response = await API.patch(`/videos/${videoId}/dislike`, { userId });
 
   return response.data;
 };
