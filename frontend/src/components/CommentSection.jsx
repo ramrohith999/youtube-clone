@@ -4,12 +4,17 @@ import {
   getComments,
   createComment,
   deleteComment,
+  updateComment,
 } from "../services/commentService";
 
 const CommentSection = ({ videoId }) => {
   const [comments, setComments] = useState([]);
 
   const [text, setText] = useState("");
+
+  const [editingId, setEditingId] = useState(null);
+
+  const [editText, setEditText] = useState("");
 
   const userId = "6a1b11a1f2b72e71b85a7a73";
 
@@ -39,6 +44,20 @@ const CommentSection = ({ videoId }) => {
 
   const handleDelete = async (id) => {
     await deleteComment(id);
+
+    loadComments();
+  };
+
+  const handleEdit = (comment) => {
+    setEditingId(comment._id);
+    setEditText(comment.text);
+  };
+
+  const handleUpdate = async () => {
+    await updateComment(editingId, editText);
+
+    setEditingId(null);
+    setEditText("");
 
     loadComments();
   };
@@ -86,7 +105,51 @@ const CommentSection = ({ videoId }) => {
         >
           <p className="font-semibold">{comment.user?.username}</p>
 
-          <p>{comment.text}</p>
+          {editingId === comment._id ? (
+            <div className="mt-2">
+              <input
+                type="text"
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+                className="
+        border
+        rounded
+        px-2
+        py-1
+        w-full
+      "
+              />
+
+              <button
+                onClick={handleUpdate}
+                className="
+        bg-green-500
+        text-white
+        px-3
+        py-1
+        rounded
+        mt-2
+        cursor-pointer
+      "
+              >
+                Save
+              </button>
+            </div>
+          ) : (
+            <p>{comment.text}</p>
+          )}
+
+          <button
+            onClick={() => handleEdit(comment)}
+            className="
+             text-blue-500
+             text-sm
+             mr-4
+             cursor-pointer
+            "
+             >
+            Edit
+          </button>
 
           <button
             onClick={() => handleDelete(comment._id)}
