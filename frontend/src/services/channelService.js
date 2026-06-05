@@ -5,3 +5,22 @@ export const createChannel = async (channelData) => {
 
   return response.data;
 };
+
+
+export const getChannelById =
+  async (id) => {
+    const response = await API.get(
+      `/channels/${id}`
+    );
+
+    return response.data;
+  };
+
+export const getChannelVideos =
+  async (id) => {
+    const response = await API.get(
+      `/channels/${id}/videos`
+    );
+
+    return response.data;
+  };
