@@ -17,11 +17,12 @@ const Header = ({ toggleSidebar, searchTerm, setSearchTerm }) => {
     z-50
     h-16
     px-4
-    border-b
     flex
     items-center
     justify-between
     bg-white
+    border-b
+    border-gray-300
   "
 >      <div className="flex items-center gap-4">
         <button onClick={toggleSidebar} className="text-xl cursor-pointer">

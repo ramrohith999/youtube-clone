@@ -59,7 +59,7 @@ const Sidebar = ({ isOpen }) => {
             <li>
               <Link
                 to="/upload-video"
-                className="block shadow-md bg-gray-300 rounded-xl hover:bg-blue-300 p-2 hover:translate-0.5 transition duration-300 "
+                className="block shadow-md bg-blue-200 rounded-xl hover:bg-blue-300 p-2 hover:translate-0.5 transition duration-300 "
               >
                 Upload Video
               </Link>
@@ -68,7 +68,7 @@ const Sidebar = ({ isOpen }) => {
             <li>
               <Link
                 to="/create-channel"
-                className="block shadow-md bg-gray-300 rounded-xl  hover:bg-blue-300 p-2 hover:translate-0.5 transition duration-300"
+                className="block shadow-md bg-blue-200 rounded-xl  hover:bg-blue-300 p-2 hover:translate-0.5 transition duration-300"
               >
                 Create Channel
               </Link>
