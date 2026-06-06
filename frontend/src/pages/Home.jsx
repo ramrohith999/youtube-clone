@@ -43,21 +43,50 @@ const Home = () => {
 
   return (
     <MainLayout searchTerm={searchTerm} setSearchTerm={setSearchTerm}>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">Discover Videos</h1>
+
+        <p className="text-gray-500 mt-1">
+          Explore tutorials, gaming, music and more.
+        </p>
+      </div>
+
       <FilterBar
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
       />
 
-      {loading && <h2 className="text-center">Loading Videos...</h2>}
-
-      {error && <h2 className="text-center text-red-500">{error}</h2>}
-
-      {filteredVideos.length === 0 ? (
+      {loading && (
+        <div className="flex justify-center items-center py-20">
+          <div
+            className="
+        animate-spin
+        rounded-full
+        h-12
+        w-12
+        border-b-2
+        border-red-500
+      "
+          />
+        </div>
+      )}
+      {error && (
         <div className="text-center py-20">
-          <h2 className="text-2xl font-semibold">No videos found</h2>
+          <h2 className="text-2xl font-bold text-red-500">
+            Something went wrong
+          </h2>
 
-          <p className="text-gray-500 mt-2">
-            Try a different search or category
+          <p className="text-gray-500 mt-2">{error}</p>
+        </div>
+      )}
+      {filteredVideos.length === 0 ? (
+        <div className="text-center py-24">
+          <div className="text-6xl mb-4">🎥</div>
+
+          <h2 className="text-3xl font-bold">No Videos Found</h2>
+
+          <p className="text-gray-500 mt-3">
+            Try another category or search term.
           </p>
         </div>
       ) : (
@@ -68,7 +97,7 @@ const Home = () => {
     sm:grid-cols-2
     lg:grid-cols-3
     xl:grid-cols-4
-    gap-6
+    gap-8
   "
         >
           {filteredVideos.map((video) => (
