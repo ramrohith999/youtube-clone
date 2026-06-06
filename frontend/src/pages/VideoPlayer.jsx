@@ -17,6 +17,7 @@ import {
 
 import CommentSection from "../components/CommentSection";
 import { Link } from "react-router-dom";
+import VideoCard from "../components/VideoCard";
 
 const VideoPlayer = () => {
   const { id } = useParams();
@@ -28,18 +29,37 @@ const VideoPlayer = () => {
 
   const dispatch = useDispatch();
 
-  const { currentVideo, loading } = useSelector((state) => state.videos);
+  const { currentVideo, videos, loading } = useSelector(
+    (state) => state.videos,
+  );
+
+  const relatedVideos =
+    currentVideo && videos
+      ? videos.filter(
+          (video) =>
+            video._id !== currentVideo._id &&
+            video.category === currentVideo.category,
+        )
+      : [];
+
+  const isOwner = currentVideo?.uploader?._id === user?.id;
 
   useEffect(() => {
     const loadVideo = async () => {
-      await incrementViews(id);
+      const viewedVideo = sessionStorage.getItem(`viewed-${id}`);
+
+      if (!viewedVideo) {
+        await incrementViews(id);
+
+        sessionStorage.setItem(`viewed-${id}`, "true");
+      }
 
       dispatch(fetchVideoById(id));
     };
 
     loadVideo();
   }, [dispatch, id]);
-  
+
   if (loading) {
     return (
       <MainLayout>
@@ -57,12 +77,22 @@ const VideoPlayer = () => {
   }
 
   const handleLike = async () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     await likeVideo(id, userId);
 
     dispatch(fetchVideoById(id));
   };
 
   const handleDislike = async () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     await dislikeVideo(id, userId);
 
     dispatch(fetchVideoById(id));
@@ -78,6 +108,7 @@ const VideoPlayer = () => {
     navigate("/");
   };
 
+  console.log(currentVideo);
   return (
     <MainLayout>
       <div className="max-w-5xl">
@@ -135,41 +166,51 @@ const VideoPlayer = () => {
             {currentVideo.dislikes.length}
           </button>
 
-          <div className="flex gap-4 mt-4">
-            <button
-              onClick={() => navigate(`/edit-video/${id}`)}
-              className="
-      bg-yellow-500
-      text-white
-      px-4
-      py-2
-      rounded
-      cursor-pointer
-    "
-            >
-              Edit Video
-            </button>
+          {isOwner && (
+            <div className="flex gap-4 mt-4">
+              <button
+                onClick={() => navigate(`/edit-video/${id}`)}
+                className="
+        bg-yellow-500
+        text-white
+        px-4
+        py-2
+        rounded
+      "
+              >
+                Edit Video
+              </button>
 
-            <button
-              onClick={handleDeleteVideo}
-              className="
-      bg-red-500
-      text-white
-      px-4
-      py-2
-      rounded
-      cursor-pointer
-    "
-            >
-              Delete Video
-            </button>
-          </div>
+              <button
+                onClick={handleDeleteVideo}
+                className="
+        bg-red-500
+        text-white
+        px-4
+        py-2
+        rounded
+      "
+              >
+                Delete Video
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="bg-gray-100 p-4 rounded-xl mt-4">
           <p>{currentVideo.description}</p>
         </div>
         <CommentSection videoId={currentVideo._id} />
+
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold mb-4">Related Videos</h2>
+
+          <div className=" grid grid-cols-1 md:grid-cols-2 gap-4 ">
+            {relatedVideos.map((video) => (
+              <VideoCard key={video._id} video={video} />
+            ))}
+          </div>
+        </div>
       </div>
     </MainLayout>
   );

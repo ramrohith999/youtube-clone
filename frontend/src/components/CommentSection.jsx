@@ -73,63 +73,70 @@ const CommentSection = ({ videoId }) => {
     <div className="mt-8">
       <h2 className="text-2xl font-bold mb-4">Comments</h2>
 
-      <div className="flex gap-2 mb-6">
-        <input
-          type="text"
-          placeholder="Add a comment..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          className="
+      {user ? (
+        <div className="flex gap-2 mb-6">
+          <input
+            type="text"
+            placeholder="Add a comment..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="
             flex-1
             border
             rounded
             px-3
             py-2
           "
-        />
+          />
 
-        <button
-          onClick={handleSubmit}
-          className="
+          <button
+            onClick={handleSubmit}
+            className="
             bg-blue-500
             text-white
             px-4
             rounded
             cursor-pointer
           "
-        >
-          Post
-        </button>
-      </div>
+          >
+            Post
+          </button>
+        </div>
+      ) : (
+        <p className="text-gray-500 mb-6">Login to post comments</p>
+      )}
 
-      {comments.map((comment) => (
-        <div
-          key={comment._id}
-          className="
+      {comments.map((comment) => {
+        const isCommentOwner = user && comment.user?._id === user.id;
+
+        return (
+          <div
+            key={comment._id}
+            className="
             border-b
             py-3
           "
-        >
-          <p className="font-semibold">{comment.user?.username}</p>
+          >
+            <p className="font-semibold">{comment.user?.username}</p>
 
-          {editingId === comment._id ? (
-            <div className="mt-2">
-              <input
-                type="text"
-                value={editText}
-                onChange={(e) => setEditText(e.target.value)}
-                className="
+            {editingId === comment._id ? (
+              <div className="mt-2">
+                <input
+                  type="text"
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                  className="
         border
         rounded
         px-2
         py-1
         w-full
       "
-              />
+                />
 
-              <button
-                onClick={handleUpdate}
-                className="
+                <button
+                  onClick={handleUpdate}
+                  className="
         bg-green-500
         text-white
         px-3
@@ -138,39 +145,44 @@ const CommentSection = ({ videoId }) => {
         mt-2
         cursor-pointer
       "
-              >
-                Save
-              </button>
-            </div>
-          ) : (
-            <p>{comment.text}</p>
-          )}
+                >
+                  Save
+                </button>
+              </div>
+            ) : (
+              <p>{comment.text}</p>
+            )}
 
-          <button
-            onClick={() => handleEdit(comment)}
-            className="
-             text-blue-500
-             text-sm
-             mr-4
-             cursor-pointer
-            "
-          >
-            Edit
-          </button>
+            {isCommentOwner && (
+              <>
+                <button
+                  onClick={() => handleEdit(comment)}
+                  className="
+        text-blue-500
+        text-sm
+        mr-4
+        cursor-pointer
+      "
+                >
+                  Edit
+                </button>
 
-          <button
-            onClick={() => handleDelete(comment._id)}
-            className="
-              text-red-500
-              text-sm
-              mt-1
-              cursor-pointer
-            "
-          >
-            Delete
-          </button>
-        </div>
-      ))}
+                <button
+                  onClick={() => handleDelete(comment._id)}
+                  className="
+        text-red-500
+        text-sm
+        mt-1
+        cursor-pointer
+      "
+                >
+                  Delete
+                </button>
+              </>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };
