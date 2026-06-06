@@ -71,33 +71,51 @@ const CommentSection = ({ videoId }) => {
 
   return (
     <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-4">Comments</h2>
+     <h2 className="text-3xl font-bold mb-6">Comments</h2>
 
       {user ? (
-        <div className="flex gap-2 mb-6">
+        <div
+          className="
+    flex
+    gap-3
+    mb-8
+    bg-white
+    p-4
+    rounded-xl
+    shadow-sm
+    border
+  "
+        >
           <input
             type="text"
             placeholder="Add a comment..."
             value={text}
             onChange={(e) => setText(e.target.value)}
             className="
-            flex-1
-            border
-            rounded
-            px-3
-            py-2
-          "
+  flex-1
+  border
+  border-gray-200
+  rounded-xl
+  px-4
+  py-3
+  focus:outline-none
+  focus:ring-2
+  focus:ring-blue-400
+"
           />
 
           <button
             onClick={handleSubmit}
             className="
-            bg-blue-500
-            text-white
-            px-4
-            rounded
-            cursor-pointer
-          "
+  bg-blue-500
+  text-white
+  px-5
+  rounded-xl
+  font-medium
+  hover:bg-blue-600
+  transition
+  cursor-pointer
+"
           >
             Post
           </button>
@@ -113,11 +131,15 @@ const CommentSection = ({ videoId }) => {
           <div
             key={comment._id}
             className="
-            border-b
-            py-3
-          "
+  bg-white
+  rounded-xl
+  p-4
+  shadow-sm
+  border
+  mb-4
+"
           >
-            <p className="font-semibold">{comment.user?.username}</p>
+            <p className="font-semibold text-lg">{comment.user?.username}</p>
 
             {editingId === comment._id ? (
               <div className="mt-2">
@@ -136,45 +158,50 @@ const CommentSection = ({ videoId }) => {
 
                 <button
                   onClick={handleUpdate}
-                  className="
-        bg-green-500
-        text-white
-        px-3
-        py-1
-        rounded
-        mt-2
-        cursor-pointer
-      "
+       className="
+  bg-green-500
+  text-white
+  px-4
+  py-2
+  rounded-xl
+  mt-3
+  hover:bg-green-600
+  transition
+  cursor-pointer
+"
                 >
                   Save
                 </button>
               </div>
             ) : (
-              <p>{comment.text}</p>
+              <p className="text-gray-700 mt-2">{comment.text}</p>
             )}
 
             {isCommentOwner && (
               <>
                 <button
                   onClick={() => handleEdit(comment)}
-                  className="
-        text-blue-500
-        text-sm
-        mr-4
-        cursor-pointer
-      "
+         className="
+  text-blue-500
+  text-sm
+  font-medium
+  mr-4
+  hover:text-blue-700
+  cursor-pointer
+"
                 >
                   Edit
                 </button>
 
                 <button
                   onClick={() => handleDelete(comment._id)}
-                  className="
-        text-red-500
-        text-sm
-        mt-1
-        cursor-pointer
-      "
+                 className="
+  text-red-500
+  text-sm
+  font-medium
+  hover:text-red-700
+  cursor-pointer
+"
                 >
                   Delete
                 </button>
