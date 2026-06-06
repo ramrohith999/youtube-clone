@@ -1,27 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import MainLayout from "../layouts/MainLayout";
 
 import { createVideo } from "../services/videoService";
-import { useSelector } from "react-redux";
+import { getChannelByOwner } from "../services/channelService";
 
 const UploadVideo = () => {
   const [title, setTitle] = useState("");
+  const [description, setDescription] =
+    useState("");
+  const [thumbnailUrl, setThumbnailUrl] =
+    useState("");
+  const [videoUrl, setVideoUrl] =
+    useState("");
+  const [category, setCategory] =
+    useState("React");
 
-  const [description, setDescription] = useState("");
+  const [channelId, setChannelId] =
+    useState("");
 
-  const [thumbnailUrl, setThumbnailUrl] = useState("");
+  const { user } = useSelector(
+    (state) => state.auth
+  );
 
-  const [videoUrl, setVideoUrl] = useState("");
+  useEffect(() => {
+    const loadChannel = async () => {
+      if (!user) return;
 
-  const [category, setCategory] = useState("React");
+      try {
+        const channel =
+          await getChannelByOwner(
+            user.id
+          );
 
-  const channelId = "6a22827ae4ec1b63bd01b2c7";
+        if (channel) {
+          setChannelId(channel._id);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const { user } = useSelector((state) => state.auth);
+    loadChannel();
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!channelId) {
+      alert(
+        "Please create a channel first"
+      );
+      return;
+    }
 
     try {
       await createVideo({
@@ -34,7 +66,9 @@ const UploadVideo = () => {
         channel: channelId,
       });
 
-      alert("Video Uploaded Successfully");
+      alert(
+        "Video Uploaded Successfully"
+      );
 
       setTitle("");
       setDescription("");
@@ -43,75 +77,204 @@ const UploadVideo = () => {
       setCategory("React");
     } catch (error) {
       console.error(error);
+      alert("Upload failed");
     }
   };
 
   return (
     <MainLayout>
-      <div className="max-w-xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Upload Video</h1>
+      <div className="max-w-3xl mx-auto">
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border p-3 rounded"
-            required
-          />
+        <div className="mb-8">
 
-          <textarea
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full border p-3 rounded"
-          />
-
-          <input
-            type="text"
-            placeholder="Thumbnail URL"
-            value={thumbnailUrl}
-            onChange={(e) => setThumbnailUrl(e.target.value)}
-            className="w-full border p-3 rounded"
-          />
-
-          <input
-            type="text"
-            placeholder="Video URL"
-            value={videoUrl}
-            onChange={(e) => setVideoUrl(e.target.value)}
-            className="w-full border p-3 rounded"
-          />
-
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full border p-3 rounded"
-          >
-            <option>React</option>
-            <option>JavaScript</option>
-            <option>NodeJS</option>
-            <option>MongoDB</option>
-            <option>Gaming</option>
-            <option>Music</option>
-            <option>Sports</option>
-          </select>
-
-          <button
-            type="submit"
-            className="
-              bg-blue-500
-              text-white
-              px-5
-              py-3
-              rounded
-              cursor-pointer
-            "
-          >
+          <h1 className="text-4xl font-bold">
             Upload Video
-          </button>
-        </form>
+          </h1>
+
+          <p className="text-gray-500 mt-2">
+            Share your content with the world.
+          </p>
+
+        </div>
+
+        <div
+          className="
+            bg-white
+            rounded-2xl
+            shadow-lg
+            p-8
+          "
+        >
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-5"
+          >
+
+            <div>
+              <label className="block font-medium mb-2">
+                Video Title
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter video title"
+                value={title}
+                onChange={(e) =>
+                  setTitle(e.target.value)
+                }
+                className="
+                  w-full
+                  border
+                  border-gray-200
+                  rounded-xl
+                  px-4
+                  py-3
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-blue-400
+                "
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">
+                Description
+              </label>
+
+              <textarea
+                rows="5"
+                placeholder="Describe your video"
+                value={description}
+                onChange={(e) =>
+                  setDescription(
+                    e.target.value
+                  )
+                }
+                className="
+                  w-full
+                  border
+                  border-gray-200
+                  rounded-xl
+                  px-4
+                  py-3
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-blue-400
+                "
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">
+                Thumbnail URL
+              </label>
+
+              <input
+                type="text"
+                placeholder="Paste thumbnail URL"
+                value={thumbnailUrl}
+                onChange={(e) =>
+                  setThumbnailUrl(
+                    e.target.value
+                  )
+                }
+                className="
+                  w-full
+                  border
+                  border-gray-200
+                  rounded-xl
+                  px-4
+                  py-3
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-blue-400
+                "
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">
+                Video URL
+              </label>
+
+              <input
+                type="text"
+                placeholder="Paste YouTube URL"
+                value={videoUrl}
+                onChange={(e) =>
+                  setVideoUrl(
+                    e.target.value
+                  )
+                }
+                className="
+                  w-full
+                  border
+                  border-gray-200
+                  rounded-xl
+                  px-4
+                  py-3
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-blue-400
+                "
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium mb-2">
+                Category
+              </label>
+
+              <select
+                value={category}
+                onChange={(e) =>
+                  setCategory(
+                    e.target.value
+                  )
+                }
+                className="
+                  w-full
+                  border
+                  border-gray-200
+                  rounded-xl
+                  px-4
+                  py-3
+                  focus:outline-none
+                  focus:ring-2
+                  focus:ring-blue-400
+                "
+              >
+                <option>React</option>
+                <option>JavaScript</option>
+                <option>NodeJS</option>
+                <option>MongoDB</option>
+                <option>Gaming</option>
+                <option>Music</option>
+                <option>Sports</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className="
+                w-full
+                bg-blue-500
+                text-white
+                py-3
+                rounded-xl
+                font-semibold
+                hover:bg-blue-600
+                transition
+                cursor-pointer
+              "
+            >
+              Upload Video
+            </button>
+
+          </form>
+        </div>
+
       </div>
     </MainLayout>
   );

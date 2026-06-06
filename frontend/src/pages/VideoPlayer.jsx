@@ -142,6 +142,11 @@ const VideoPlayer = () => {
       py-2
       rounded-full
       cursor-pointer
+      hover:shadow-sm
+      hover:shadow-gray-200
+      hover:translate-0.5
+      transition-all
+      duration-200
     "
           >
             <FaThumbsUp />
@@ -160,6 +165,11 @@ const VideoPlayer = () => {
       py-2
       rounded-full
       cursor-pointer
+      hover:shadow-sm
+      hover:shadow-gray-200
+      hover:translate-0.5
+      transition-all
+      duration-200
     "
           >
             <FaThumbsDown />
@@ -174,9 +184,11 @@ const VideoPlayer = () => {
                 className="
         bg-yellow-500
         text-white
+        hover:bg-yellow-600
         px-4
         py-2
-        rounded
+        rounded-xl
+        cursor-pointer
       "
               >
                 Edit Video
@@ -187,9 +199,11 @@ const VideoPlayer = () => {
                 className="
         bg-red-500
         text-white
+        hover:bg-red-600
         px-4
         py-2
-        rounded
+        rounded-xl
+        cursor-pointer
       "
               >
                 Delete Video

@@ -24,3 +24,13 @@ export const getChannelVideos =
 
     return response.data;
   };
+
+  export const getChannelByOwner = async (
+  userId
+) => {
+  const response = await API.get(
+    `/channels/owner/${userId}`
+  );
+
+  return response.data;
+};

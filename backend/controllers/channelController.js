@@ -65,3 +65,20 @@ export const getChannelVideos =
       });
     }
   };
+
+
+  export const getMyChannel = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const channel = await Channel.findOne({
+      owner: userId,
+    });
+
+    res.json(channel);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
