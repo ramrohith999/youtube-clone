@@ -4,8 +4,6 @@ Github repository link : https://github.com/ramrohith999/youtube-clone
 
 A full-stack YouTube Clone built using the MERN Stack (MongoDB, Express.js, React.js, Node.js). Users can create channels, upload videos, like/dislike videos, comment on videos, and manage their own content.
 
----
-
 ## Features
 
 ### Authentication
