@@ -8,6 +8,7 @@ import {
   deleteVideo,
   likeVideo,
   dislikeVideo,
+  incrementViews,
 } from "../controllers/videoController.js";
 
 const router = express.Router();
@@ -25,5 +26,7 @@ router.delete("/:id", deleteVideo);
 router.patch("/:id/like", likeVideo);
 
 router.patch("/:id/dislike", dislikeVideo);
+
+router.patch("/:id/view", incrementViews);
 
 export default router;

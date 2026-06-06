@@ -11,7 +11,7 @@ import getYoutubeEmbedUrl from "../utils/getYoutubeEmbedUrl";
 import { likeVideo, dislikeVideo, deleteVideo } from "../services/videoService";
 
 import CommentSection from "../components/CommentSection";
-
+import { Link } from "react-router-dom";
 
 const VideoPlayer = () => {
   const { id } = useParams();
@@ -21,7 +21,6 @@ const VideoPlayer = () => {
 
   const userId = user?.id;
 
- 
   const dispatch = useDispatch();
 
   const { currentVideo, loading } = useSelector((state) => state.videos);
@@ -79,9 +78,12 @@ const VideoPlayer = () => {
         />
         <h1 className="text-3xl font-bold mt-4">{currentVideo.title}</h1>
 
-        <p className="mt-3 text-gray-600">
+        <Link
+          to={`/channel/${currentVideo.channel?._id}`}
+          className="mt-3 block text-gray-600 hover:text-blue-500 "
+        >
           {currentVideo.channel?.channelName}
-        </p>
+        </Link>
 
         <p className="text-gray-500 mt-2">{currentVideo.views} views</p>
 
