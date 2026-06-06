@@ -24,14 +24,13 @@ const Sidebar = ({ isOpen }) => {
     <aside
       className={`
         bg-white
-        border-r
         shadow-sm
         w-60
         min-h-[calc(100vh-64px)]
         p-4
         transition-all
         duration-300
-        ${isOpen ? "block" : "hidden :block"}
+        ${isOpen ? "block" : "hidden"}
       `}
     >
       <ul className="space-y-3">
@@ -43,7 +42,7 @@ const Sidebar = ({ isOpen }) => {
                     ${
                       (item === "Home" && !activeCategory) ||
                       activeCategory === item
-                        ? "bg-red-100 text-red-600 font-semibold"
+                        ? "bg-gray-200 text-gray-800 font-semibold"
                         : "hover:bg-gray-100"
                     }
                 `}
@@ -55,12 +54,12 @@ const Sidebar = ({ isOpen }) => {
 
         {user && (
           <>
-            <hr className="my-4" />
+            <hr className="my-4 border border-gray-300" />
 
             <li>
               <Link
                 to="/upload-video"
-                className="block hover:bg-gray-100 p-2 rounded"
+                className="block shadow-md bg-gray-300 rounded-xl hover:bg-blue-300 p-2 hover:translate-0.5 transition duration-300 "
               >
                 Upload Video
               </Link>
@@ -69,7 +68,7 @@ const Sidebar = ({ isOpen }) => {
             <li>
               <Link
                 to="/create-channel"
-                className="block hover:bg-gray-100 p-2 rounded"
+                className="block shadow-md bg-gray-300 rounded-xl  hover:bg-blue-300 p-2 hover:translate-0.5 transition duration-300"
               >
                 Create Channel
               </Link>
