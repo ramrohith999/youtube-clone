@@ -3,6 +3,7 @@ import { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 
 import { createVideo } from "../services/videoService";
+import { useSelector } from "react-redux";
 
 const UploadVideo = () => {
   const [title, setTitle] = useState("");

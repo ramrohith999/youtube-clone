@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Sidebar = ({ isOpen }) => {
   const menuItems = [
@@ -11,6 +12,8 @@ const Sidebar = ({ isOpen }) => {
     "Music",
     "Sports",
   ];
+
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <aside
@@ -27,20 +30,46 @@ const Sidebar = ({ isOpen }) => {
     >
       <ul className="space-y-3">
 
-        {menuItems.map((item) => (
-          <li key={item}>
+  {menuItems.map((item) => (
+    <li key={item}>
+      <Link
+        to={
+          item === "Home"
+            ? "/"
+            : `/?category=${item}`
+        }
+        className="block hover:bg-gray-100 p-2 rounded"
+      >
+        {item}
+      </Link>
+    </li>
+  ))}
 
-            <Link
-              to="/"
-              className="block hover:bg-gray-100 p-2 rounded"
-            >
-              {item}
-            </Link>
+  {user && (
+    <>
+      <hr className="my-4" />
 
-          </li>
-        ))}
+      <li>
+        <Link
+          to="/upload-video"
+          className="block hover:bg-gray-100 p-2 rounded"
+        >
+          Upload Video
+        </Link>
+      </li>
 
-      </ul>
+      <li>
+        <Link
+          to="/create-channel"
+          className="block hover:bg-gray-100 p-2 rounded"
+        >
+          Create Channel
+        </Link>
+      </li>
+    </>
+  )}
+
+</ul>
     </aside>
   );
 };
