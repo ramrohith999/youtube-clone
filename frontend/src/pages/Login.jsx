@@ -4,17 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { loginUser } from "../services/authService";
-
 import { loginSuccess } from "../features/auth/authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-
-  const [password, setPassword] = useState("");
+  const [password, setPassword] =
+    useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,41 +27,126 @@ const Login = () => {
 
       navigate("/");
     } catch (error) {
-      alert(error.response?.data?.message || "Login Failed");
+      alert(
+        error.response?.data?.message ||
+          "Login Failed"
+      );
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div
+      className="
+        min-h-screen
+        flex
+        items-center
+        justify-center
+        bg-linear-to-br
+        from-gray-50
+        to-gray-100
+        px-4
+      "
+    >
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md border p-6 rounded-lg shadow"
+        className="
+          w-full
+          max-w-md
+          bg-white
+          rounded-2xl
+          shadow-xl
+          p-8
+        "
       >
-        <h1 className="text-3xl font-bold mb-6">Login</h1>
+        <div className="text-center mb-8">
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border p-3 rounded mb-3"
-        />
+          <h1
+            className="
+              text-4xl
+              font-bold
+              text-gray-800
+            "
+          >
+            Welcome Back
+          </h1>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border p-3 rounded mb-4"
-        />
+          <p className="text-gray-600 mt-2">
+            Login to continue
+          </p>
 
-        <button className="w-full bg-blue-500 text-white py-3 rounded">
+        </div>
+
+        <div className="space-y-4">
+
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+            className="
+              w-full
+              border
+              border-gray-200
+              rounded-2xl
+              px-4
+              py-3
+              focus:outline-none
+              focus:ring-2
+              focus:ring-gray-400
+            "
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+            className="
+              w-full
+              border
+              border-gray-200
+              rounded-2xl
+              px-4
+              py-3
+              focus:outline-none
+              focus:ring-2
+              focus:ring-gray-400
+            "
+          />
+
+        </div>
+
+        <button
+          className="
+            w-full
+            mt-6
+            bg-blue-500
+            text-white
+            py-3
+            rounded-xl
+            font-semibold
+            hover:bg-blue-600
+            transition
+            cursor-pointer
+          "
+        >
           Login
         </button>
 
-        <p className="mt-4 text-center">
+        <p className="mt-6 text-center text-gray-600">
           Don't have an account?{" "}
-          <Link to="/register" className="text-blue-500">
+          <Link
+            to="/register"
+            className="
+              text-blue-600
+              font-medium
+              hover:underline
+            "
+          >
             Register
           </Link>
         </p>
