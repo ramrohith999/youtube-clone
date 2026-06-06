@@ -49,17 +49,20 @@ const CommentSection = ({ videoId }) => {
     loadComments();
   };
 
+  //to delete a commnt
   const handleDelete = async (id) => {
     await deleteComment(id);
 
     loadComments();
   };
 
+  //to edit a comment
   const handleEdit = (comment) => {
     setEditingId(comment._id);
     setEditText(comment.text);
   };
 
+  //to update a comment
   const handleUpdate = async () => {
     await updateComment(editingId, editText);
 
@@ -71,35 +74,16 @@ const CommentSection = ({ videoId }) => {
 
   return (
     <div className="mt-8">
-     <h2 className="text-3xl font-bold mb-6">Comments</h2>
+      <h2 className="text-3xl font-bold mb-6">Comments</h2>
 
       {user ? (
-        <div
-          className="
-    flex
-    gap-3
-    mb-8
-    bg-white
-    p-4
-    rounded-xl
-    shadow-sm
-    border
-  "
-        >
+        <div className="flex gap-3mb-8 bg-white p-4 rounded-xl shadow-sm border">
           <input
             type="text"
             placeholder="Add a comment..."
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="
-  flex-1
-  border
-  border-gray-200
-  rounded-xl
-  px-4
-  py-3
-  focus:outline-none
-  focus:ring-2
+            className=" flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2
   focus:ring-blue-400
 "
           />
@@ -158,7 +142,7 @@ const CommentSection = ({ videoId }) => {
 
                 <button
                   onClick={handleUpdate}
-       className="
+                  className="
   bg-green-500
   text-white
   px-4
@@ -181,7 +165,7 @@ const CommentSection = ({ videoId }) => {
               <>
                 <button
                   onClick={() => handleEdit(comment)}
-         className="
+                  className="
   text-blue-500
   text-sm
   font-medium
@@ -195,7 +179,7 @@ const CommentSection = ({ videoId }) => {
 
                 <button
                   onClick={() => handleDelete(comment._id)}
-                 className="
+                  className="
   text-red-500
   text-sm
   font-medium
