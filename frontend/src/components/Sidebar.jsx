@@ -25,7 +25,8 @@ const Sidebar = ({ isOpen }) => {
       className={`
         bg-white
         shadow-sm
-        w-60
+        w-56
+         md:w-60
         min-h-[calc(100vh-64px)]
         p-4
         transition-all

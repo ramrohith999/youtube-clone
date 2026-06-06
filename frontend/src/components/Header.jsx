@@ -10,21 +10,8 @@ const Header = ({ toggleSidebar, searchTerm, setSearchTerm }) => {
   const { user } = useSelector((state) => state.auth);
 
   return (
-<header
-  className="
-    sticky
-    top-0
-    z-50
-    h-16
-    px-4
-    flex
-    items-center
-    justify-between
-    bg-white
-    border-b
-    border-gray-300
-  "
->      <div className="flex items-center gap-4">
+<header className="h-16 px-3 md:px-4 border-b flex items-center justify-between bg-white">
+       <div className="flex items-center gap-4">
         <button onClick={toggleSidebar} className="text-xl cursor-pointer">
           <FaBars />
         </button>
@@ -34,7 +21,7 @@ const Header = ({ toggleSidebar, searchTerm, setSearchTerm }) => {
         </Link>
       </div>
 
-      <div className="flex-1 max-w-xl mx-8">
+      <div className="hidden md:block flex-1 max-w-xl mx-8">
         <input
           type="text"
           placeholder="Search videos..."

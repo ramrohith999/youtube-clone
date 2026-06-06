@@ -114,7 +114,7 @@ const VideoPlayer = () => {
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <div className="lg:col-span-2">
         <iframe
-          className="w-full h-125 rounded-xl"
+          className="w-full aspect-video rounded-xl"
           src={getYoutubeEmbedUrl(currentVideo.videoUrl)}
           title={currentVideo.title}
           allowFullScreen
