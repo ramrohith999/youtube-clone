@@ -39,3 +39,9 @@ export const updateVideo = async (id, data) => {
 
   return response.data;
 };
+
+export const incrementViews = async (id) => {
+  const response = await API.patch(`/videos/${id}/view`);
+
+  return response.data;
+};

@@ -8,7 +8,12 @@ import MainLayout from "../layouts/MainLayout";
 import { fetchVideoById } from "../features/videos/videoSlice";
 
 import getYoutubeEmbedUrl from "../utils/getYoutubeEmbedUrl";
-import { likeVideo, dislikeVideo, deleteVideo } from "../services/videoService";
+import {
+  likeVideo,
+  dislikeVideo,
+  deleteVideo,
+  incrementViews,
+} from "../services/videoService";
 
 import CommentSection from "../components/CommentSection";
 import { Link } from "react-router-dom";
@@ -26,9 +31,15 @@ const VideoPlayer = () => {
   const { currentVideo, loading } = useSelector((state) => state.videos);
 
   useEffect(() => {
-    dispatch(fetchVideoById(id));
-  }, [dispatch, id]);
+    const loadVideo = async () => {
+      await incrementViews(id);
 
+      dispatch(fetchVideoById(id));
+    };
+
+    loadVideo();
+  }, [dispatch, id]);
+  
   if (loading) {
     return (
       <MainLayout>
