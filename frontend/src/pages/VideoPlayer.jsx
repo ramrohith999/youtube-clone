@@ -111,7 +111,8 @@ const VideoPlayer = () => {
   console.log(currentVideo);
   return (
     <MainLayout>
-      <div className="max-w-5xl">
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="lg:col-span-2">
         <iframe
           className="w-full h-125 rounded-xl"
           src={getYoutubeEmbedUrl(currentVideo.videoUrl)}
@@ -201,18 +202,27 @@ const VideoPlayer = () => {
           <p>{currentVideo.description}</p>
         </div>
         <CommentSection videoId={currentVideo._id} />
+</div>
 
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold mb-4">Related Videos</h2>
+<div className="lg:col-span-1">
 
-          <div className=" grid grid-cols-1 md:grid-cols-2 gap-4 ">
-            {relatedVideos.map((video) => (
-              <VideoCard key={video._id} video={video} />
-            ))}
-          </div>
-        </div>
+  <h2 className="text-xl font-bold mb-4">
+    Related Videos
+  </h2>
+
+  <div className="space-y-4">
+    {relatedVideos.map((video) => (
+      <VideoCard
+        key={video._id}
+        video={video}
+      />
+    ))}
+  </div>
+
+</div>
       </div>
     </MainLayout>
+    
   );
 };
 

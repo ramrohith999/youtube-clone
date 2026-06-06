@@ -14,8 +14,12 @@ const FilterBar = ({
             setSelectedCategory(category)
           }
           className={`
-            px-4 py-2 rounded-lg whitespace-nowrap
+            px-4 py-2 rounded-xl whitespace-nowrap
             cursor-pointer
+            hover:translate-0.5
+            hover:shadow-xl
+            transition
+            duration-300
 
             ${
               selectedCategory === category
