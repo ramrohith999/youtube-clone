@@ -40,7 +40,7 @@ const CommentSection = ({ videoId }) => {
 
     await createComment({
       text,
-      user: user._id,
+      user: user.id,
       video: videoId,
     });
 

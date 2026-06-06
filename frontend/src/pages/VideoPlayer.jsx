@@ -12,12 +12,16 @@ import { likeVideo, dislikeVideo, deleteVideo } from "../services/videoService";
 
 import CommentSection from "../components/CommentSection";
 
+
 const VideoPlayer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const userId = "6a1b11a1f2b72e71b85a7a73";
+  const { user } = useSelector((state) => state.auth);
 
+  const userId = user?.id;
+
+ 
   const dispatch = useDispatch();
 
   const { currentVideo, loading } = useSelector((state) => state.videos);
@@ -92,6 +96,7 @@ const VideoPlayer = () => {
       px-4
       py-2
       rounded-full
+      cursor-pointer
     "
           >
             <FaThumbsUp />
@@ -109,6 +114,7 @@ const VideoPlayer = () => {
       px-4
       py-2
       rounded-full
+      cursor-pointer
     "
           >
             <FaThumbsDown />

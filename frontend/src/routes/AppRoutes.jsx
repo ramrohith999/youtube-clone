@@ -9,6 +9,7 @@ import CreateChannel from "../pages/CreateChannel";
 import UploadVideo from "../pages/UploadVideo";
 import NotFound from "../pages/NotFound";
 import EditVideo from "../pages/EditVideo";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const AppRoutes = () => {
   return (
@@ -23,13 +24,34 @@ const AppRoutes = () => {
 
       <Route path="/channel/:id" element={<Channel />} />
 
-      <Route path="/create-channel" element={<CreateChannel />} />
+      <Route
+        path="/create-channel"
+        element={
+          <ProtectedRoute>
+            <CreateChannel />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/upload-video" element={<UploadVideo />} />
+      <Route
+        path="/upload-video"
+        element={
+          <ProtectedRoute>
+            <UploadVideo />
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="*" element={<NotFound />} />
 
-      <Route path="/edit-video/:id" element={<EditVideo />} />
+      <Route
+        path="/edit-video/:id"
+        element={
+          <ProtectedRoute>
+            <EditVideo />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };

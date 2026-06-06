@@ -17,7 +17,7 @@ const UploadVideo = () => {
 
   const channelId = "6a22827ae4ec1b63bd01b2c7";
 
-  const userId = "6a1b11a1f2b72e71b85a7a73";
+  const { user } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const UploadVideo = () => {
         thumbnailUrl,
         videoUrl,
         category,
-        uploader: userId,
+        uploader: user.id,
         channel: channelId,
       });
 

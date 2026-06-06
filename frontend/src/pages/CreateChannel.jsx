@@ -4,6 +4,8 @@ import MainLayout from "../layouts/MainLayout";
 
 import { createChannel } from "../services/channelService";
 
+import { useSelector } from "react-redux";
+
 const CreateChannel = () => {
   const [channelName, setChannelName] = useState("");
 
@@ -11,7 +13,7 @@ const CreateChannel = () => {
 
   const [banner, setBanner] = useState("");
 
-  const userId = "6a1b11a1f2b72e71b85a7a73";
+  const { user } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ const CreateChannel = () => {
         channelName,
         description,
         banner,
-        owner: userId,
+        owner: user.id,
       });
 
       alert("Channel Created Successfully");
