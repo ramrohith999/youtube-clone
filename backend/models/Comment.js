@@ -22,7 +22,7 @@ const commentSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.model("Comment", commentSchema);

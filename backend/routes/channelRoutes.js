@@ -5,6 +5,7 @@ import {
   getChannelVideos,
   getMyChannel,
 } from "../controllers/channelController.js";
+
 const router = express.Router();
 
 router.post("/", createChannel);

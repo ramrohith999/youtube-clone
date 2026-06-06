@@ -67,6 +67,7 @@ export const getChannelVideos =
   };
 
 
+  //to get channel loggen in
   export const getMyChannel = async (req, res) => {
   try {
     const { userId } = req.params;
