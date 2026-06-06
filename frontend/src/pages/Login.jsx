@@ -11,11 +11,29 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] =
-    useState("");
+  const [password, setPassword] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    
+  if (!email.trim()) {
+    alert("Email is required");
+    return;
+  }
+
+  if (!password.trim()) {
+    alert("Password is required");
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email");
+    return;
+  }
 
     try {
       const data = await loginUser({
@@ -27,10 +45,7 @@ const Login = () => {
 
       navigate("/");
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Login Failed"
-      );
+      alert(error.response?.data?.message || "Login Failed");
     }
   };
 
@@ -59,7 +74,6 @@ const Login = () => {
         "
       >
         <div className="text-center mb-8">
-
           <h1
             className="
               text-4xl
@@ -70,21 +84,16 @@ const Login = () => {
             Welcome Back
           </h1>
 
-          <p className="text-gray-600 mt-2">
-            Login to continue
-          </p>
-
+          <p className="text-gray-600 mt-2">Login to continue</p>
         </div>
 
         <div className="space-y-4">
-
           <input
             type="email"
+            required
             placeholder="Email Address"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             className="
               w-full
               border
@@ -101,10 +110,10 @@ const Login = () => {
           <input
             type="password"
             placeholder="Password"
+            required
+            minLength={6}
             value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setPassword(e.target.value)}
             className="
               w-full
               border
@@ -117,7 +126,6 @@ const Login = () => {
               focus:ring-gray-400
             "
           />
-
         </div>
 
         <button

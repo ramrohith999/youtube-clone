@@ -15,27 +15,45 @@ const Register = () => {
   const [password, setPassword] =
     useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      await registerUser({
-        username,
-        email,
-        password,
-      });
+  if (username.trim().length < 3) {
+    alert("Username must be at least 3 characters");
+    return;
+  }
 
-      alert("Registration Successful");
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      navigate("/login");
-    } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Registration Failed"
-      );
-    }
-  };
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email");
+    return;
+  }
 
+  if (password.length < 6) {
+    alert("Password must be at least 6 characters");
+    return;
+  }
+
+  try {
+    await registerUser({
+      username,
+      email,
+      password,
+    });
+
+    alert("Registration Successful");
+
+    navigate("/login");
+  } catch (error) {
+    alert(
+      error.response?.data?.message ||
+      "Registration Failed"
+    );
+  }
+};
   return (
     <div
       className="
@@ -81,6 +99,8 @@ const Register = () => {
         <div className="space-y-4">
 
           <input
+            required
+            minLength={3}
             type="text"
             placeholder="Username"
             value={username}
@@ -102,6 +122,7 @@ const Register = () => {
 
           <input
             type="email"
+            required
             placeholder="Email Address"
             value={email}
             onChange={(e) =>
@@ -123,6 +144,8 @@ const Register = () => {
           <input
             type="password"
             placeholder="Password"
+            required
+            minLength={6}
             value={password}
             onChange={(e) =>
               setPassword(e.target.value)
