@@ -10,7 +10,20 @@ const Header = ({ toggleSidebar, searchTerm, setSearchTerm }) => {
   const { user } = useSelector((state) => state.auth);
 
   return (
-<header className="h-16 px-3 md:px-4 border-b flex items-center justify-between bg-white">
+<header className="
+    sticky
+    top-0
+    z-50
+    h-16
+    px-3
+    md:px-4
+    flex
+    items-center
+    justify-between
+    bg-white
+    border-b
+    border-gray-300
+  ">
        <div className="flex items-center gap-4">
         <button onClick={toggleSidebar} className="text-xl cursor-pointer">
           <FaBars />
