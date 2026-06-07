@@ -214,7 +214,6 @@ http://localhost:5000
 
 ## Screenshots
 
-Add screenshots inside the `screenshots` folder and reference them here.
 
 ### Home Page
 
