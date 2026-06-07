@@ -108,7 +108,6 @@ const VideoPlayer = () => {
     navigate("/");
   };
 
-  console.log(currentVideo);
   return (
     <MainLayout>
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

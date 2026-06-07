@@ -38,7 +38,7 @@ const UploadVideo = () => {
           setChannelId(channel._id);
         }
       } catch (error) {
-        console.error(error);
+        alert("error");
       }
     };
 
@@ -76,7 +76,6 @@ const UploadVideo = () => {
       setVideoUrl("");
       setCategory("React");
     } catch (error) {
-      console.error(error);
       alert("Upload failed");
     }
   };

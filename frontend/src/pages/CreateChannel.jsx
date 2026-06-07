@@ -38,7 +38,6 @@ const CreateChannel = () => {
       setDescription("");
       setBanner("");
     } catch (error) {
-      console.error(error);
       alert("Failed to create channel");
     }
   };

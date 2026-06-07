@@ -36,7 +36,6 @@ const EditVideo = () => {
           video.description
         );
       } catch (error) {
-        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -60,7 +59,6 @@ const EditVideo = () => {
 
       navigate(`/video/${id}`);
     } catch (error) {
-      console.error(error);
       alert("Failed to update video");
     }
   };
