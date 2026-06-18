@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 
@@ -20,6 +21,11 @@ const UploadVideo = () => {
   const [channelId, setChannelId] =
     useState("");
 
+  const [loading, setLoading] =
+    useState(false);
+
+  const navigate = useNavigate();
+
   const { user } = useSelector(
     (state) => state.auth
   );
@@ -38,7 +44,7 @@ const UploadVideo = () => {
           setChannelId(channel._id);
         }
       } catch (error) {
-        alert("error");
+        console.error(error);
       }
     };
 
@@ -55,28 +61,54 @@ const UploadVideo = () => {
       return;
     }
 
+    if (title.trim().length < 5) {
+      alert(
+        "Title must be at least 5 characters"
+      );
+      return;
+    }
+
+    if (!thumbnailUrl.trim()) {
+      alert(
+        "Thumbnail URL is required"
+      );
+      return;
+    }
+
+    if (!videoUrl.trim()) {
+      alert(
+        "Video URL is required"
+      );
+      return;
+    }
+
     try {
-      await createVideo({
-        title,
-        description,
-        thumbnailUrl,
-        videoUrl,
-        category,
-        uploader: user.id,
-        channel: channelId,
-      });
+      setLoading(true);
+
+      const newVideo =
+        await createVideo({
+          title,
+          description,
+          thumbnailUrl,
+          videoUrl,
+          category,
+          uploader: user.id,
+          channel: channelId,
+        });
 
       alert(
         "Video Uploaded Successfully"
       );
 
-      setTitle("");
-      setDescription("");
-      setThumbnailUrl("");
-      setVideoUrl("");
-      setCategory("React");
+      navigate(
+        `/video/${newVideo._id}`
+      );
     } catch (error) {
+      console.error(error);
+
       alert("Upload failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,7 +117,6 @@ const UploadVideo = () => {
       <div className="max-w-3xl mx-auto">
 
         <div className="mb-8">
-
           <h1 className="text-4xl font-bold">
             Upload Video
           </h1>
@@ -93,7 +124,6 @@ const UploadVideo = () => {
           <p className="text-gray-500 mt-2">
             Share your content with the world.
           </p>
-
         </div>
 
         <div
@@ -108,7 +138,6 @@ const UploadVideo = () => {
             onSubmit={handleSubmit}
             className="space-y-5"
           >
-
             <div>
               <label className="block font-medium mb-2">
                 Video Title
@@ -119,7 +148,9 @@ const UploadVideo = () => {
                 placeholder="Enter video title"
                 value={title}
                 onChange={(e) =>
-                  setTitle(e.target.value)
+                  setTitle(
+                    e.target.value
+                  )
                 }
                 className="
                   w-full
@@ -189,6 +220,7 @@ const UploadVideo = () => {
                   focus:ring-2
                   focus:ring-blue-400
                 "
+                required
               />
             </div>
 
@@ -217,6 +249,7 @@ const UploadVideo = () => {
                   focus:ring-2
                   focus:ring-blue-400
                 "
+                required
               />
             </div>
 
@@ -256,6 +289,7 @@ const UploadVideo = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="
                 w-full
                 bg-blue-500
@@ -265,15 +299,18 @@ const UploadVideo = () => {
                 font-semibold
                 hover:bg-blue-600
                 transition
+                disabled:opacity-50
+                disabled:cursor-not-allowed
                 cursor-pointer
               "
             >
-              Upload Video
+              {loading
+                ? "Uploading..."
+                : "Upload Video"}
             </button>
 
           </form>
         </div>
-
       </div>
     </MainLayout>
   );

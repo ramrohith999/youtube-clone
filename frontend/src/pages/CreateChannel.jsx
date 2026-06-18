@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import toast from "react-hot-toast";
 
 import MainLayout from "../layouts/MainLayout";
 
 import { createChannel } from "../services/channelService";
 
 const CreateChannel = () => {
+  const navigate = useNavigate();
+
   const [channelName, setChannelName] =
     useState("");
 
@@ -15,6 +20,9 @@ const CreateChannel = () => {
   const [banner, setBanner] =
     useState("");
 
+  const [loading, setLoading] =
+    useState(false);
+
   const { user } = useSelector(
     (state) => state.auth
   );
@@ -22,7 +30,16 @@ const CreateChannel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (channelName.trim().length < 3) {
+      toast.error(
+        "Channel name must be at least 3 characters"
+      );
+      return;
+    }
+
     try {
+      setLoading(true);
+
       await createChannel({
         channelName,
         description,
@@ -30,15 +47,25 @@ const CreateChannel = () => {
         owner: user.id,
       });
 
-      alert(
+      toast.success(
         "Channel Created Successfully"
       );
 
       setChannelName("");
       setDescription("");
       setBanner("");
+
+      setTimeout(() => {
+        navigate("/upload-video");
+      }, 1500);
     } catch (error) {
-      alert("Failed to create channel");
+      console.error(error);
+
+      toast.error(
+        "Failed to create channel"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,6 +125,7 @@ const CreateChannel = () => {
                   focus:ring-blue-400
                 "
                 required
+                minLength={3}
               />
             </div>
 
@@ -183,6 +211,7 @@ const CreateChannel = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="
                 w-full
                 bg-blue-500
@@ -192,10 +221,14 @@ const CreateChannel = () => {
                 font-semibold
                 hover:bg-blue-600
                 transition
+                disabled:opacity-50
+                disabled:cursor-not-allowed
                 cursor-pointer
               "
             >
-              Create Channel
+              {loading
+                ? "Creating..."
+                : "Create Channel"}
             </button>
 
           </form>

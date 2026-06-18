@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {
+  useParams,
+  useNavigate,
+} from "react-router-dom";
+
+import { useSelector } from "react-redux";
 
 import MainLayout from "../layouts/MainLayout";
 import VideoCard from "../components/VideoCard";
@@ -9,8 +14,16 @@ import {
   getChannelVideos,
 } from "../services/channelService";
 
+import { deleteVideo } from "../services/videoService";
+
 const Channel = () => {
   const { id } = useParams();
+
+  const navigate = useNavigate();
+
+  const { user } = useSelector(
+    (state) => state.auth
+  );
 
   const [channel, setChannel] =
     useState(null);
@@ -20,18 +33,52 @@ const Channel = () => {
 
   useEffect(() => {
     const loadChannel = async () => {
-      const channelData =
-        await getChannelById(id);
+      try {
+        const channelData =
+          await getChannelById(id);
 
-      const videosData =
-        await getChannelVideos(id);
+        const videosData =
+          await getChannelVideos(id);
 
-      setChannel(channelData);
-      setVideos(videosData);
+        setChannel(channelData);
+        setVideos(videosData);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     loadChannel();
   }, [id]);
+
+  const isOwner =
+    user &&
+    (channel?.owner === user.id ||
+      channel?.owner?._id === user.id);
+
+  const handleDeleteVideo = async (
+    videoId
+  ) => {
+    const confirmed =
+      window.confirm(
+        "Delete this video?"
+      );
+
+    if (!confirmed) return;
+
+    try {
+      await deleteVideo(videoId);
+
+      setVideos((prev) =>
+        prev.filter(
+          (video) =>
+            video._id !== videoId
+        )
+      );
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete video");
+    }
+  };
 
   if (!channel) {
     return (
@@ -99,7 +146,6 @@ const Channel = () => {
               ?.charAt(0)
               .toUpperCase()}
           </div>
-
         </div>
 
         {/* Channel Info */}
@@ -110,17 +156,40 @@ const Channel = () => {
           </h1>
 
           <p className="text-gray-500 mt-2">
-            {channel.subscribers.toLocaleString()} Subscribers
+            {channel.subscribers?.toLocaleString()} Subscribers
           </p>
 
-          <p className="text-gray-600 mt-4 max-w-2xl">
+          <div className="flex gap-8 mt-4">
+
+            <div>
+              <p className="text-2xl font-bold">
+                {videos.length}
+              </p>
+
+              <p className="text-gray-500">
+                Videos
+              </p>
+            </div>
+
+            <div>
+              <p className="text-2xl font-bold">
+                {channel.subscribers?.toLocaleString()}
+              </p>
+
+              <p className="text-gray-500">
+                Subscribers
+              </p>
+            </div>
+
+          </div>
+
+          <p className="text-gray-600 mt-5 max-w-3xl">
             {channel.description ||
               "Welcome to this channel."}
           </p>
-
         </div>
 
-        {/* Videos Section */}
+        {/* Videos Header */}
         <div className="mt-12 mb-6">
 
           <h2 className="text-3xl font-bold">
@@ -145,7 +214,8 @@ const Channel = () => {
             </h2>
 
             <p className="text-gray-500 mt-2">
-              This channel hasn't uploaded any videos.
+              This channel hasn't uploaded
+              any videos.
             </p>
 
           </div>
@@ -160,14 +230,63 @@ const Channel = () => {
             "
           >
             {videos.map((video) => (
-              <VideoCard
+              <div
                 key={video._id}
-                video={video}
-              />
+                className="relative"
+              >
+                <VideoCard
+                  video={video}
+                />
+
+                {isOwner && (
+                  <div className="flex gap-2 mt-3">
+
+                    <button
+                      onClick={() =>
+                        navigate(
+                          `/edit-video/${video._id}`
+                        )
+                      }
+                      className="
+                        flex-1
+                        bg-yellow-500
+                        text-white
+                        py-2
+                        rounded-xl
+                        hover:bg-yellow-600
+                        transition
+                        cursor-pointer
+                      "
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        handleDeleteVideo(
+                          video._id
+                        )
+                      }
+                      className="
+                        flex-1
+                        bg-red-500
+                        text-white
+                        py-2
+                        rounded-xl
+                        hover:bg-red-600
+                        transition
+                        cursor-pointer
+                      "
+                    >
+                      Delete
+                    </button>
+
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         )}
-
       </div>
     </MainLayout>
   );

@@ -2,58 +2,52 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import { registerUser } from "../services/authService";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const navigate = useNavigate();
 
-  const [username, setUsername] =
-    useState("");
+  const [username, setUsername] = useState("");
 
-  const [email, setEmail] =
-    useState("");
+  const [email, setEmail] = useState("");
 
-  const [password, setPassword] =
-    useState("");
+  const [password, setPassword] = useState("");
 
-    
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (username.trim().length < 3) {
-    alert("Username must be at least 3 characters");
-    return;
-  }
+    if (username.trim().length < 3) {
+      toast.error("Username must be at least 3 characters");
+      return;
+    }
 
-  const emailRegex =
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!emailRegex.test(email)) {
-    alert("Please enter a valid email");
-    return;
-  }
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email");
+      return;
+    }
 
-  if (password.length < 6) {
-    alert("Password must be at least 6 characters");
-    return;
-  }
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
 
-  try {
-    await registerUser({
-      username,
-      email,
-      password,
-    });
+    try {
+      await registerUser({
+        username,
+        email,
+        password,
+      });
 
-    alert("Registration Successful");
-
-    navigate("/login");
-  } catch (error) {
-    alert(
-      error.response?.data?.message ||
-      "Registration Failed"
-    );
-  }
-};
+      toast.success("Registration Successful");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Registration Failed");
+    }
+  };
   return (
     <div
       className="
@@ -79,7 +73,6 @@ const handleSubmit = async (e) => {
         "
       >
         <div className="text-center mb-8">
-
           <h1
             className="
               text-4xl
@@ -90,23 +83,17 @@ const handleSubmit = async (e) => {
             Create Account
           </h1>
 
-          <p className="text-gray-600 mt-2">
-            Join and start uploading videos
-          </p>
-
+          <p className="text-gray-600 mt-2">Join and start uploading videos</p>
         </div>
 
         <div className="space-y-4">
-
           <input
             required
             minLength={3}
             type="text"
             placeholder="Username"
             value={username}
-            onChange={(e) =>
-              setUsername(e.target.value)
-            }
+            onChange={(e) => setUsername(e.target.value)}
             className="
               w-full
               border
@@ -125,9 +112,7 @@ const handleSubmit = async (e) => {
             required
             placeholder="Email Address"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             className="
               w-full
               border
@@ -147,9 +132,7 @@ const handleSubmit = async (e) => {
             required
             minLength={6}
             value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setPassword(e.target.value)}
             className="
               w-full
               border
@@ -162,7 +145,6 @@ const handleSubmit = async (e) => {
               focus:ring-gray-400
             "
           />
-
         </div>
 
         <button

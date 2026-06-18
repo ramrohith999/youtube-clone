@@ -1,13 +1,31 @@
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getChannelByOwner } from "../services/channelService";
 
 import { logout } from "../features/auth/authSlice";
 
 const Header = ({ toggleSidebar, searchTerm, setSearchTerm }) => {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const { user } = useSelector((state) => state.auth);
+
+  const handleMyChannel = async () => {
+  try {
+    const channel = await getChannelByOwner(user.id);
+
+    if (channel) {
+      navigate(`/channel/${channel._id}`);
+    } else {
+      navigate("/create-channel");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
 <header className="
@@ -58,7 +76,42 @@ const Header = ({ toggleSidebar, searchTerm, setSearchTerm }) => {
       </div>
 
       {user ? (
-        <div className="flex items-center gap-3">
+       <div className="flex items-center gap-2 md:gap-3">
+        <button
+  onClick={() => navigate("/upload-video")}
+  className="
+    px-4
+    py-2
+    rounded-2xl
+    bg-blue-500
+    text-white
+    shadow-md
+    hover:bg-blue-600
+    transition-all
+    duration-200
+    cursor-pointer
+  "
+>
+  Upload
+</button>
+
+<button
+  onClick={handleMyChannel}
+  className="
+    px-4
+    py-2
+    rounded-2xl
+    bg-indigo-500
+    text-white
+    shadow-md
+    hover:bg-indigo-600
+    transition-all
+    duration-200
+    cursor-pointer
+  "
+>
+  My Channel
+</button>
           <span className="font-medium hover:text-indigo-600 cursor-pointer transition duration-200 ">
             {user.username}
           </span>

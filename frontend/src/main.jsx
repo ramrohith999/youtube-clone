@@ -8,6 +8,9 @@ import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 
+import { Toaster } from "react-hot-toast";
+
+
 ReactDOM.createRoot(
   document.getElementById("root")
 ).render(
@@ -15,6 +18,12 @@ ReactDOM.createRoot(
   <Provider store={store}>
     <BrowserRouter>
       <App />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+        }}
+      />
     </BrowserRouter>
   </Provider>
 </React.StrictMode>

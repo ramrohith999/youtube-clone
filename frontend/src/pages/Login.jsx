@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../services/authService";
 import { loginSuccess } from "../features/auth/authSlice";
 
+import toast from "react-hot-toast";
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,28 +15,25 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-  if (!email.trim()) {
-    alert("Email is required");
-    return;
-  }
+    if (!email.trim()) {
+      toast.error("Email is required");
+      return;
+    }
 
-  if (!password.trim()) {
-    alert("Password is required");
-    return;
-  }
+    if (!password.trim()) {
+      toast.error("Password is required");
+      return;
+    }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!emailRegex.test(email)) {
-    alert("Please enter a valid email");
-    return;
-  }
-
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email");
+      return;
+    }
     try {
       const data = await loginUser({
         email,
@@ -43,9 +42,13 @@ const Login = () => {
 
       dispatch(loginSuccess(data));
 
-      navigate("/");
+      toast.success("Login Successful");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
-      alert(error.response?.data?.message || "Login Failed");
+      toast.error(error.response?.data?.message || "Login Failed");
     }
   };
 
