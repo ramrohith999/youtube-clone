@@ -4,6 +4,8 @@ import {
   useParams,
 } from "react-router-dom";
 
+import toast from "react-hot-toast";
+
 import MainLayout from "../layouts/MainLayout";
 
 import {
@@ -25,6 +27,9 @@ const EditVideo = () => {
   const [loading, setLoading] =
     useState(true);
 
+  const [updating, setUpdating] =
+    useState(false);
+
   useEffect(() => {
     const loadVideo = async () => {
       try {
@@ -32,10 +37,14 @@ const EditVideo = () => {
           await getVideoById(id);
 
         setTitle(video.title);
+
         setDescription(
           video.description
         );
       } catch (error) {
+        toast.error(
+          "Failed to load video"
+        );
       } finally {
         setLoading(false);
       }
@@ -47,19 +56,34 @@ const EditVideo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (title.trim().length < 5) {
+      toast.error(
+        "Title must be at least 5 characters"
+      );
+      return;
+    }
+
     try {
+      setUpdating(true);
+
       await updateVideo(id, {
         title,
         description,
       });
 
-      alert(
+      toast.success(
         "Video Updated Successfully"
       );
 
-      navigate(`/video/${id}`);
+      setTimeout(() => {
+        navigate(`/video/${id}`);
+      }, 1000);
     } catch (error) {
-      alert("Failed to update video");
+      toast.error(
+        "Failed to update video"
+      );
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -85,34 +109,41 @@ const EditVideo = () => {
   return (
     <MainLayout>
       <div className="max-w-3xl mx-auto">
-
         <div className="mb-8">
-
           <h1 className="text-4xl font-bold">
             Edit Video
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-500 dark:text-gray-400 mt-2">
             Update your video details.
           </p>
-
         </div>
 
         <div
           className="
             bg-white
+            dark:bg-gray-900
             rounded-2xl
             shadow-lg
             p-8
+            border
+            border-gray-200
+            dark:border-gray-700
           "
         >
           <form
             onSubmit={handleSubmit}
             className="space-y-5"
           >
-
             <div>
-              <label className="block font-medium mb-2">
+              <label
+                className="
+                  block
+                  font-medium
+                  mb-2
+                  dark:text-gray-200
+                "
+              >
                 Video Title
               </label>
 
@@ -128,6 +159,9 @@ const EditVideo = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -136,11 +170,19 @@ const EditVideo = () => {
                   focus:ring-blue-400
                 "
                 required
+                minLength={5}
               />
             </div>
 
             <div>
-              <label className="block font-medium mb-2">
+              <label
+                className="
+                  block
+                  font-medium
+                  mb-2
+                  dark:text-gray-200
+                "
+              >
                 Description
               </label>
 
@@ -156,6 +198,9 @@ const EditVideo = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -167,9 +212,9 @@ const EditVideo = () => {
             </div>
 
             <div className="flex gap-4">
-
               <button
                 type="submit"
+                disabled={updating}
                 className="
                   flex-1
                   bg-blue-500
@@ -179,10 +224,14 @@ const EditVideo = () => {
                   font-semibold
                   hover:bg-blue-600
                   transition
+                  disabled:opacity-50
+                  disabled:cursor-not-allowed
                   cursor-pointer
                 "
               >
-                Save Changes
+                {updating
+                  ? "Saving..."
+                  : "Save Changes"}
               </button>
 
               <button
@@ -195,23 +244,23 @@ const EditVideo = () => {
                 className="
                   flex-1
                   bg-gray-200
+                  dark:bg-gray-700
                   text-gray-800
+                  dark:text-white
                   py-3
                   rounded-xl
                   font-semibold
                   hover:bg-gray-300
+                  dark:hover:bg-gray-600
                   transition
                   cursor-pointer
                 "
               >
                 Cancel
               </button>
-
             </div>
-
           </form>
         </div>
-
       </div>
     </MainLayout>
   );

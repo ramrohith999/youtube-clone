@@ -6,6 +6,8 @@ import {
 
 import { useSelector } from "react-redux";
 
+import toast from "react-hot-toast";
+
 import MainLayout from "../layouts/MainLayout";
 import VideoCard from "../components/VideoCard";
 
@@ -44,6 +46,10 @@ const Channel = () => {
         setVideos(videosData);
       } catch (error) {
         console.error(error);
+
+        toast.error(
+          "Failed to load channel"
+        );
       }
     };
 
@@ -74,9 +80,16 @@ const Channel = () => {
             video._id !== videoId
         )
       );
+
+      toast.success(
+        "Video deleted successfully"
+      );
     } catch (error) {
       console.error(error);
-      alert("Failed to delete video");
+
+      toast.error(
+        "Failed to delete video"
+      );
     }
   };
 
@@ -102,10 +115,8 @@ const Channel = () => {
   return (
     <MainLayout>
       <div>
-
         {/* Banner */}
         <div className="relative">
-
           <img
             src={
               channel.banner ||
@@ -118,6 +129,9 @@ const Channel = () => {
               object-cover
               rounded-2xl
               shadow-md
+              border
+              border-gray-200
+              dark:border-gray-700
             "
           />
 
@@ -139,6 +153,7 @@ const Channel = () => {
               font-bold
               border-4
               border-white
+              dark:border-gray-900
               shadow-lg
             "
           >
@@ -150,40 +165,80 @@ const Channel = () => {
 
         {/* Channel Info */}
         <div className="mt-14">
-
-          <h1 className="text-4xl font-bold">
+          <h1
+            className="
+              text-4xl
+              font-bold
+              dark:text-white
+            "
+          >
             {channel.channelName}
           </h1>
 
-          <p className="text-gray-500 mt-2">
-            {channel.subscribers?.toLocaleString()} Subscribers
+          <p
+            className="
+              text-gray-500
+              dark:text-gray-400
+              mt-2
+            "
+          >
+            {channel.subscribers?.toLocaleString()}
+            {" "}
+            Subscribers
           </p>
 
           <div className="flex gap-8 mt-4">
-
             <div>
-              <p className="text-2xl font-bold">
+              <p
+                className="
+                  text-2xl
+                  font-bold
+                  dark:text-white
+                "
+              >
                 {videos.length}
               </p>
 
-              <p className="text-gray-500">
+              <p
+                className="
+                  text-gray-500
+                  dark:text-gray-400
+                "
+              >
                 Videos
               </p>
             </div>
 
             <div>
-              <p className="text-2xl font-bold">
+              <p
+                className="
+                  text-2xl
+                  font-bold
+                  dark:text-white
+                "
+              >
                 {channel.subscribers?.toLocaleString()}
               </p>
 
-              <p className="text-gray-500">
+              <p
+                className="
+                  text-gray-500
+                  dark:text-gray-400
+                "
+              >
                 Subscribers
               </p>
             </div>
-
           </div>
 
-          <p className="text-gray-600 mt-5 max-w-3xl">
+          <p
+            className="
+              text-gray-600
+              dark:text-gray-300
+              mt-5
+              max-w-3xl
+            "
+          >
             {channel.description ||
               "Welcome to this channel."}
           </p>
@@ -191,33 +246,53 @@ const Channel = () => {
 
         {/* Videos Header */}
         <div className="mt-12 mb-6">
-
-          <h2 className="text-3xl font-bold">
+          <h2
+            className="
+              text-3xl
+              font-bold
+              dark:text-white
+            "
+          >
             Channel Videos
           </h2>
 
-          <p className="text-gray-500 mt-1">
+          <p
+            className="
+              text-gray-500
+              dark:text-gray-400
+              mt-1
+            "
+          >
             {videos.length} videos uploaded
           </p>
-
         </div>
 
         {videos.length === 0 ? (
           <div className="text-center py-20">
-
             <div className="text-6xl mb-4">
               🎥
             </div>
 
-            <h2 className="text-2xl font-bold">
+            <h2
+              className="
+                text-2xl
+                font-bold
+                dark:text-white
+              "
+            >
               No Videos Yet
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p
+              className="
+                text-gray-500
+                dark:text-gray-400
+                mt-2
+              "
+            >
               This channel hasn't uploaded
               any videos.
             </p>
-
           </div>
         ) : (
           <div
@@ -240,7 +315,6 @@ const Channel = () => {
 
                 {isOwner && (
                   <div className="flex gap-2 mt-3">
-
                     <button
                       onClick={() =>
                         navigate(
@@ -280,7 +354,6 @@ const Channel = () => {
                     >
                       Delete
                     </button>
-
                   </div>
                 )}
               </div>

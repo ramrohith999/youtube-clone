@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +7,8 @@ import MainLayout from "../layouts/MainLayout";
 
 import { createVideo } from "../services/videoService";
 import { getChannelByOwner } from "../services/channelService";
+
+import toast from "react-hot-toast";
 
 const UploadVideo = () => {
   const [title, setTitle] = useState("");
@@ -55,28 +58,28 @@ const UploadVideo = () => {
     e.preventDefault();
 
     if (!channelId) {
-      alert(
+      toast.error(
         "Please create a channel first"
       );
       return;
     }
 
     if (title.trim().length < 5) {
-      alert(
+      toast.error(
         "Title must be at least 5 characters"
       );
       return;
     }
 
     if (!thumbnailUrl.trim()) {
-      alert(
+      toast.error(
         "Thumbnail URL is required"
       );
       return;
     }
 
     if (!videoUrl.trim()) {
-      alert(
+      toast.error(
         "Video URL is required"
       );
       return;
@@ -96,7 +99,7 @@ const UploadVideo = () => {
           channel: channelId,
         });
 
-      alert(
+      toast.success(
         "Video Uploaded Successfully"
       );
 
@@ -106,7 +109,7 @@ const UploadVideo = () => {
     } catch (error) {
       console.error(error);
 
-      alert("Upload failed");
+      toast.error("Upload failed");
     } finally {
       setLoading(false);
     }
@@ -115,13 +118,12 @@ const UploadVideo = () => {
   return (
     <MainLayout>
       <div className="max-w-3xl mx-auto">
-
         <div className="mb-8">
           <h1 className="text-4xl font-bold">
             Upload Video
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-500 dark:text-gray-400 mt-2">
             Share your content with the world.
           </p>
         </div>
@@ -129,9 +131,13 @@ const UploadVideo = () => {
         <div
           className="
             bg-white
+            dark:bg-gray-900
             rounded-2xl
             shadow-lg
             p-8
+            border
+            border-gray-200
+            dark:border-gray-700
           "
         >
           <form
@@ -139,7 +145,7 @@ const UploadVideo = () => {
             className="space-y-5"
           >
             <div>
-              <label className="block font-medium mb-2">
+              <label className="block font-medium mb-2 dark:text-gray-200">
                 Video Title
               </label>
 
@@ -156,6 +162,9 @@ const UploadVideo = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -168,7 +177,7 @@ const UploadVideo = () => {
             </div>
 
             <div>
-              <label className="block font-medium mb-2">
+              <label className="block font-medium mb-2 dark:text-gray-200">
                 Description
               </label>
 
@@ -185,6 +194,9 @@ const UploadVideo = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -196,7 +208,7 @@ const UploadVideo = () => {
             </div>
 
             <div>
-              <label className="block font-medium mb-2">
+              <label className="block font-medium mb-2 dark:text-gray-200">
                 Thumbnail URL
               </label>
 
@@ -213,6 +225,9 @@ const UploadVideo = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -225,7 +240,7 @@ const UploadVideo = () => {
             </div>
 
             <div>
-              <label className="block font-medium mb-2">
+              <label className="block font-medium mb-2 dark:text-gray-200">
                 Video URL
               </label>
 
@@ -242,6 +257,9 @@ const UploadVideo = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -254,7 +272,7 @@ const UploadVideo = () => {
             </div>
 
             <div>
-              <label className="block font-medium mb-2">
+              <label className="block font-medium mb-2 dark:text-gray-200">
                 Category
               </label>
 
@@ -269,6 +287,9 @@ const UploadVideo = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -308,7 +329,6 @@ const UploadVideo = () => {
                 ? "Uploading..."
                 : "Upload Video"}
             </button>
-
           </form>
         </div>
       </div>

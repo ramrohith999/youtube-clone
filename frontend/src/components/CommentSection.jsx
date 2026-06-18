@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 import {
   getComments,
@@ -9,20 +10,33 @@ import {
 } from "../services/commentService";
 
 const CommentSection = ({ videoId }) => {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] =
+    useState([]);
 
-  const [text, setText] = useState("");
+  const [text, setText] =
+    useState("");
 
-  const [editingId, setEditingId] = useState(null);
+  const [editingId, setEditingId] =
+    useState(null);
 
-  const [editText, setEditText] = useState("");
+  const [editText, setEditText] =
+    useState("");
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector(
+    (state) => state.auth
+  );
 
   const loadComments = async () => {
-    const data = await getComments(videoId);
+    try {
+      const data =
+        await getComments(videoId);
 
-    setComments(data);
+      setComments(data);
+    } catch (error) {
+      toast.error(
+        "Failed to load comments"
+      );
+    }
   };
 
   useEffect(() => {
@@ -30,166 +44,312 @@ const CommentSection = ({ videoId }) => {
   }, [videoId]);
 
   const handleSubmit = async () => {
-    if (!text.trim()) return;
-
-    if (!user) {
-      alert("Please login first");
-
+    if (!text.trim()) {
+      toast.error(
+        "Comment cannot be empty"
+      );
       return;
     }
 
-    await createComment({
-      text,
-      user: user.id,
-      video: videoId,
-    });
+    if (!user) {
+      toast.error(
+        "Please login first"
+      );
+      return;
+    }
 
-    setText("");
+    try {
+      await createComment({
+        text,
+        user: user.id,
+        video: videoId,
+      });
 
-    loadComments();
+      toast.success(
+        "Comment posted"
+      );
+
+      setText("");
+
+      loadComments();
+    } catch (error) {
+      toast.error(
+        "Failed to post comment"
+      );
+    }
   };
 
-  //to delete a commnt
-  const handleDelete = async (id) => {
-    await deleteComment(id);
+  const handleDelete = async (
+    id
+  ) => {
+    try {
+      await deleteComment(id);
 
-    loadComments();
+      toast.success(
+        "Comment deleted"
+      );
+
+      loadComments();
+    } catch (error) {
+      toast.error(
+        "Failed to delete comment"
+      );
+    }
   };
 
-  //to edit a comment
   const handleEdit = (comment) => {
     setEditingId(comment._id);
+
     setEditText(comment.text);
   };
 
-  //to update a comment
   const handleUpdate = async () => {
-    await updateComment(editingId, editText);
+    if (!editText.trim()) {
+      toast.error(
+        "Comment cannot be empty"
+      );
+      return;
+    }
 
-    setEditingId(null);
-    setEditText("");
+    try {
+      await updateComment(
+        editingId,
+        editText
+      );
 
-    loadComments();
+      toast.success(
+        "Comment updated"
+      );
+
+      setEditingId(null);
+      setEditText("");
+
+      loadComments();
+    } catch (error) {
+      toast.error(
+        "Failed to update comment"
+      );
+    }
   };
 
   return (
     <div className="mt-8">
-      <h2 className="text-3xl font-bold mb-6">Comments</h2>
+      <h2
+        className="
+          text-3xl
+          font-bold
+          mb-6
+          dark:text-white
+        "
+      >
+        Comments
+      </h2>
 
       {user ? (
-        <div className="flex gap-3mb-8 bg-white p-4 rounded-xl shadow-sm border">
+        <div
+          className="
+            flex
+            gap-3
+            mb-8
+            bg-white
+            dark:bg-gray-900
+            p-4
+            rounded-xl
+            shadow-sm
+            border
+            border-gray-200
+            dark:border-gray-700
+          "
+        >
           <input
             type="text"
             placeholder="Add a comment..."
             value={text}
-            onChange={(e) => setText(e.target.value)}
-            className=" flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2
-  focus:ring-blue-400
-"
+            onChange={(e) =>
+              setText(e.target.value)
+            }
+            className="
+              flex-1
+              border
+              border-gray-200
+              dark:border-gray-700
+              dark:bg-gray-800
+              dark:text-white
+              rounded-xl
+              px-4
+              py-3
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-400
+            "
           />
 
           <button
             onClick={handleSubmit}
             className="
-  bg-blue-500
-  text-white
-  px-5
-  rounded-xl
-  font-medium
-  hover:bg-blue-600
-  transition
-  cursor-pointer
-"
+              bg-blue-500
+              text-white
+              px-5
+              rounded-xl
+              font-medium
+              hover:bg-blue-600
+              transition
+              cursor-pointer
+            "
           >
             Post
           </button>
         </div>
       ) : (
-        <p className="text-gray-500 mb-6">Login to post comments</p>
+        <p
+          className="
+            text-gray-500
+            dark:text-gray-400
+            mb-6
+          "
+        >
+          Login to post comments
+        </p>
+      )}
+
+      {comments.length === 0 && (
+        <div
+          className="
+            text-center
+            py-10
+            text-gray-500
+            dark:text-gray-400
+          "
+        >
+          No comments yet.
+          Be the first to comment!
+        </div>
       )}
 
       {comments.map((comment) => {
-        const isCommentOwner = user && comment.user?._id === user.id;
+        const isCommentOwner =
+          user &&
+          comment.user?._id ===
+            user.id;
 
         return (
           <div
             key={comment._id}
             className="
-  bg-white
-  rounded-xl
-  p-4
-  shadow-sm
-  border
-  mb-4
-"
+              bg-white
+              dark:bg-gray-900
+              rounded-xl
+              p-4
+              shadow-sm
+              border
+              border-gray-200
+              dark:border-gray-700
+              mb-4
+            "
           >
-            <p className="font-semibold text-lg">{comment.user?.username}</p>
+            <p
+              className="
+                font-semibold
+                text-lg
+                dark:text-white
+              "
+            >
+              {comment.user?.username}
+            </p>
 
-            {editingId === comment._id ? (
-              <div className="mt-2">
+            {editingId ===
+            comment._id ? (
+              <div className="mt-3">
                 <input
                   type="text"
                   value={editText}
-                  onChange={(e) => setEditText(e.target.value)}
+                  onChange={(e) =>
+                    setEditText(
+                      e.target.value
+                    )
+                  }
                   className="
-        border
-        rounded
-        px-2
-        py-1
-        w-full
-      "
+                    w-full
+                    border
+                    border-gray-200
+                    dark:border-gray-700
+                    dark:bg-gray-800
+                    dark:text-white
+                    rounded-xl
+                    px-4
+                    py-2
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-blue-400
+                  "
                 />
 
                 <button
-                  onClick={handleUpdate}
+                  onClick={
+                    handleUpdate
+                  }
                   className="
-  bg-green-500
-  text-white
-  px-4
-  py-2
-  rounded-xl
-  mt-3
-  hover:bg-green-600
-  transition
-  cursor-pointer
-"
+                    bg-green-500
+                    text-white
+                    px-4
+                    py-2
+                    rounded-xl
+                    mt-3
+                    hover:bg-green-600
+                    transition
+                    cursor-pointer
+                  "
                 >
                   Save
                 </button>
               </div>
             ) : (
-              <p className="text-gray-700 mt-2">{comment.text}</p>
+              <p
+                className="
+                  text-gray-700
+                  dark:text-gray-300
+                  mt-2
+                "
+              >
+                {comment.text}
+              </p>
             )}
 
             {isCommentOwner && (
-              <>
+              <div className="mt-3">
                 <button
-                  onClick={() => handleEdit(comment)}
+                  onClick={() =>
+                    handleEdit(comment)
+                  }
                   className="
-  text-blue-500
-  text-sm
-  font-medium
-  mr-4
-  hover:text-blue-700
-  cursor-pointer
-"
+                    text-blue-500
+                    text-sm
+                    font-medium
+                    mr-4
+                    hover:text-blue-700
+                    cursor-pointer
+                  "
                 >
                   Edit
                 </button>
 
                 <button
-                  onClick={() => handleDelete(comment._id)}
+                  onClick={() =>
+                    handleDelete(
+                      comment._id
+                    )
+                  }
                   className="
-  text-red-500
-  text-sm
-  font-medium
-  hover:text-red-700
-  cursor-pointer
-"
+                    text-red-500
+                    text-sm
+                    font-medium
+                    hover:text-red-700
+                    cursor-pointer
+                  "
                 >
                   Delete
                 </button>
-              </>
+              </div>
             )}
           </div>
         );

@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
 
 const Sidebar = ({ isOpen }) => {
   const menuItems = [
@@ -14,19 +13,27 @@ const Sidebar = ({ isOpen }) => {
     "Sports",
   ];
 
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector(
+    (state) => state.auth
+  );
 
-  const [searchParams] = useSearchParams();
+  const [searchParams] =
+    useSearchParams();
 
-  const activeCategory = searchParams.get("category");
+  const activeCategory =
+    searchParams.get("category");
 
   return (
     <aside
       className={`
         bg-white
+        dark:bg-gray-900
         shadow-sm
+        border-r
+        border-gray-200
+        dark:border-gray-700
         w-56
-         md:w-60
+        md:w-60
         min-h-[calc(100vh-64px)]
         p-4
         transition-all
@@ -38,15 +45,34 @@ const Sidebar = ({ isOpen }) => {
         {menuItems.map((item) => (
           <li key={item}>
             <Link
-              to={item === "Home" ? "/" : `/?category=${item}`}
-              className={`block p-2 rounded transition
-                    ${
-                      (item === "Home" && !activeCategory) ||
-                      activeCategory === item
-                        ? "bg-gray-200 text-gray-800 font-semibold"
-                        : "hover:bg-gray-100"
-                    }
-                `}
+              to={
+                item === "Home"
+                  ? "/"
+                  : `/?category=${item}`
+              }
+              className={`
+                block
+                p-3
+                rounded-xl
+                transition-all
+                duration-200
+                ${
+                  (item === "Home" &&
+                    !activeCategory) ||
+                  activeCategory === item
+                    ? `
+                      bg-blue-100
+                      text-blue-700
+                      dark:bg-blue-900
+                      dark:text-blue-300
+                      font-semibold
+                    `
+                    : `
+                      hover:bg-gray-100
+                      dark:hover:bg-gray-800
+                    `
+                }
+              `}
             >
               {item}
             </Link>
@@ -55,12 +81,28 @@ const Sidebar = ({ isOpen }) => {
 
         {user && (
           <>
-            <hr className="my-4 border border-gray-300" />
+            <hr
+              className="
+                my-4
+                border-gray-300
+                dark:border-gray-700
+              "
+            />
 
             <li>
               <Link
                 to="/upload-video"
-                className="block shadow-md bg-blue-200 rounded-xl hover:bg-blue-300 p-2 hover:translate-0.5 transition duration-300 "
+                className="
+                  block
+                  p-3
+                  rounded-xl
+                  bg-blue-500
+                  text-white
+                  shadow-md
+                  hover:bg-blue-600
+                  transition-all
+                  duration-200
+                "
               >
                 Upload Video
               </Link>
@@ -69,7 +111,17 @@ const Sidebar = ({ isOpen }) => {
             <li>
               <Link
                 to="/create-channel"
-                className="block shadow-md bg-blue-200 rounded-xl  hover:bg-blue-300 p-2 hover:translate-0.5 transition duration-300"
+                className="
+                  block
+                  p-3
+                  rounded-xl
+                  bg-indigo-500
+                  text-white
+                  shadow-md
+                  hover:bg-indigo-600
+                  transition-all
+                  duration-200
+                "
               >
                 Create Channel
               </Link>

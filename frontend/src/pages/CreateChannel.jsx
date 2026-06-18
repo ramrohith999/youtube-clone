@@ -72,35 +72,42 @@ const CreateChannel = () => {
   return (
     <MainLayout>
       <div className="max-w-3xl mx-auto">
-
         <div className="mb-8">
-
           <h1 className="text-4xl font-bold">
             Create Channel
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-500 dark:text-gray-400 mt-2">
             Build your own channel and start
             sharing videos.
           </p>
-
         </div>
 
         <div
           className="
             bg-white
+            dark:bg-gray-900
             rounded-2xl
             shadow-lg
             p-8
+            border
+            border-gray-200
+            dark:border-gray-700
           "
         >
           <form
             onSubmit={handleSubmit}
             className="space-y-5"
           >
-
             <div>
-              <label className="block font-medium mb-2">
+              <label
+                className="
+                  block
+                  font-medium
+                  mb-2
+                  dark:text-gray-200
+                "
+              >
                 Channel Name
               </label>
 
@@ -117,6 +124,9 @@ const CreateChannel = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -130,7 +140,14 @@ const CreateChannel = () => {
             </div>
 
             <div>
-              <label className="block font-medium mb-2">
+              <label
+                className="
+                  block
+                  font-medium
+                  mb-2
+                  dark:text-gray-200
+                "
+              >
                 Description
               </label>
 
@@ -147,6 +164,9 @@ const CreateChannel = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -158,7 +178,14 @@ const CreateChannel = () => {
             </div>
 
             <div>
-              <label className="block font-medium mb-2">
+              <label
+                className="
+                  block
+                  font-medium
+                  mb-2
+                  dark:text-gray-200
+                "
+              >
                 Banner URL
               </label>
 
@@ -175,6 +202,9 @@ const CreateChannel = () => {
                   w-full
                   border
                   border-gray-200
+                  dark:border-gray-700
+                  dark:bg-gray-800
+                  dark:text-white
                   rounded-xl
                   px-4
                   py-3
@@ -187,7 +217,13 @@ const CreateChannel = () => {
 
             {banner && (
               <div>
-                <p className="font-medium mb-2">
+                <p
+                  className="
+                    font-medium
+                    mb-2
+                    dark:text-gray-200
+                  "
+                >
                   Banner Preview
                 </p>
 
@@ -200,6 +236,8 @@ const CreateChannel = () => {
                     object-cover
                     rounded-xl
                     border
+                    border-gray-200
+                    dark:border-gray-700
                   "
                   onError={(e) => {
                     e.target.style.display =
@@ -230,10 +268,8 @@ const CreateChannel = () => {
                 ? "Creating..."
                 : "Create Channel"}
             </button>
-
           </form>
         </div>
-
       </div>
     </MainLayout>
   );

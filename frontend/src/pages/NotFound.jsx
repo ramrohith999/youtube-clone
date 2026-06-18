@@ -12,18 +12,22 @@ const NotFound = () => {
         bg-linear-to-br
         from-gray-50
         to-gray-100
+        dark:from-gray-950
+        dark:to-gray-900
         px-4
       "
     >
       <div className="text-center">
-
-        
+        <div className="text-7xl mb-4">
+          🎥
+        </div>
 
         <h1
           className="
             text-8xl
             font-extrabold
             text-gray-800
+            dark:text-white
           "
         >
           404
@@ -34,6 +38,7 @@ const NotFound = () => {
             text-3xl
             font-bold
             mt-4
+            dark:text-white
           "
         >
           Page Not Found
@@ -42,6 +47,7 @@ const NotFound = () => {
         <p
           className="
             text-gray-500
+            dark:text-gray-400
             mt-3
             max-w-md
             mx-auto
@@ -64,13 +70,14 @@ const NotFound = () => {
             rounded-xl
             font-semibold
             hover:bg-blue-600
-            transition
+            hover:scale-105
+            transition-all
+            duration-200
             shadow-md
           "
         >
           Go Back Home
         </Link>
-
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import VideoCard from "../components/VideoCard";
 import { useSearchParams } from "react-router-dom";
 
 import { fetchVideos } from "../features/videos/videoSlice";
+import VideoCardSkeleton from "../components/VideoCardSkeleton";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -57,19 +58,25 @@ const Home = () => {
       />
 
       {loading && (
-        <div className="flex justify-center items-center py-20">
-          <div
-            className="
-        animate-spin
-        rounded-full
-        h-12
-        w-12
-        border-b-2
-        border-red-500
-      "
-          />
-        </div>
-      )}
+  <div
+    className="
+      grid
+      grid-cols-1
+      sm:grid-cols-2
+      lg:grid-cols-3
+      xl:grid-cols-4
+      gap-8
+    "
+  >
+    {Array.from({ length: 8 }).map(
+      (_, index) => (
+        <VideoCardSkeleton
+          key={index}
+        />
+      )
+    )}
+  </div>
+)}
       {error && (
         <div className="text-center py-20">
           <h2 className="text-2xl font-bold text-red-500">
