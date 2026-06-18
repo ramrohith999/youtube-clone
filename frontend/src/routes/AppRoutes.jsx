@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import ProtectedRoute from "../components/ProtectedRoute";
+import PageLoader from "../components/PageLoader";
 
 // Lazy Loaded Pages
 const Home = lazy(() =>
@@ -50,27 +51,7 @@ const NotFound = lazy(() =>
 const AppRoutes = () => {
   return (
     <Suspense
-      fallback={
-        <div
-          className="
-            min-h-screen
-            flex
-            items-center
-            justify-center
-          "
-        >
-          <div
-            className="
-              animate-spin
-              h-12
-              w-12
-              rounded-full
-              border-b-2
-              border-blue-500
-            "
-          />
-        </div>
-      }
+      fallback={ <PageLoader /> }
     >
       <Routes>
         <Route
