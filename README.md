@@ -1,16 +1,23 @@
-Github repository link : https://github.com/ramrohith999/youtube-clone
-
-# YouTube Clone
+# 🎥 YouTube Clone
 
 A full-stack YouTube Clone built using the MERN Stack (MongoDB, Express.js, React.js, Node.js). Users can create channels, upload videos, like/dislike videos, comment on videos, and manage their own content.
 
-## Features
+## 🚀 Live Demo
+
+Frontend: https://youtubeclone-alpha-jade.vercel.app/
+
+Backend: https://youtube-clone-1wgh.onrender.com
+
+---
+
+## 📌 Features
 
 ### Authentication
 
 * User Registration
 * User Login
 * User Logout
+* JWT Authentication
 * Protected Routes
 * Redux Authentication State Management
 
@@ -23,6 +30,7 @@ A full-stack YouTube Clone built using the MERN Stack (MongoDB, Express.js, Reac
 * Search Videos
 * Filter Videos by Category
 * Related Videos Section
+* View Count Tracking
 
 ### Channel Management
 
@@ -54,11 +62,30 @@ A full-stack YouTube Clone built using the MERN Stack (MongoDB, Express.js, Reac
 * Sidebar Navigation
 * Sticky Header
 * Category Filters
+* Dark Mode
+* Toast Notifications
+* Loading States
+* Route-Based Lazy Loading
+* Footer Navigation
 * Custom 404 Page
 
 ---
 
-## Tech Stack
+## 🏆 Key Highlights
+
+* Full Stack MERN Application
+* JWT Authentication & Protected Routes
+* CRUD Operations for Videos, Comments, and Channels
+* Redux Toolkit State Management
+* Responsive Design with Tailwind CSS
+* Production Deployment using Render and Vercel
+* Route-Based Code Splitting using React.lazy() and Suspense
+* Dark Mode Support
+* Modern UI/UX Design
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
 
@@ -68,6 +95,8 @@ A full-stack YouTube Clone built using the MERN Stack (MongoDB, Express.js, Reac
 * Axios
 * Tailwind CSS
 * React Icons
+* React Hot Toast
+* Vite
 
 ### Backend
 
@@ -81,9 +110,15 @@ A full-stack YouTube Clone built using the MERN Stack (MongoDB, Express.js, Reac
 * JWT (JSON Web Token)
 * bcryptjs
 
+### Deployment
+
+* Vercel (Frontend)
+* Render (Backend)
+* MongoDB Atlas (Database)
+
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```bash
 youtube-clone/
@@ -114,12 +149,12 @@ youtube-clone/
 
 ---
 
-## Installation
+## ⚙️ Installation
 
 ### Clone Repository
 
 ```bash
-git clone https://github.com/ramrohith999/youtube-clone
+git clone https://github.com/ramrohith999/youtube-clone.git
 cd youtube-clone
 ```
 
@@ -153,6 +188,17 @@ npm run dev
 ```bash
 cd frontend
 npm install
+```
+
+Create a `.env` file:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Run Frontend:
+
+```bash
 npm run dev
 ```
 
@@ -170,7 +216,7 @@ http://localhost:5000
 
 ---
 
-## API Endpoints
+## 🌐 API Endpoints
 
 ### Authentication
 
@@ -212,28 +258,40 @@ http://localhost:5000
 
 ---
 
-## Screenshots
-
+## 📸 Screenshots
 
 ### Home Page
 
-![Home](./screenshots/Home page.png)
+![Home](./screenshots/Home%20page.png)
 
 ### Video Player
 
-![Video Player](./screenshots/video player page.png)
+![Video Player](./screenshots/video%20player%20page.png)
 
 ### Channel Page
 
-![Channel](./screenshots/channel page.png)
+![Channel](./screenshots/channel%20page.png)
 
 ### Upload Video
 
-![Upload](./screenshots/upload video page.png)
+![Upload](./screenshots/upload%20video%20page.png)
 
 ### Create Channel
 
-![Create Channel](./screenshots/create channel page.png)
+![Create Channel](./screenshots/create%20channel%20page.png)
+
+----
+
+## 👨‍💻 Author
+
+**Ram Rohith Maringanti**
+
+GitHub: https://github.com/ramrohith999
+
+LinkedIn: https://www.linkedin.com/in/ram-rohith-maringanti-587b03138/
 
 ---
 
+## ⭐ Support
+
+If you found this project useful, consider giving it a star on GitHub.
